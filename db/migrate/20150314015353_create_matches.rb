@@ -10,6 +10,7 @@ class CreateMatches < ActiveRecord::Migration
       t.integer :red_score
       t.integer :blue_score
 
+      t.references :event
       t.timestamps null: false
     end
   end

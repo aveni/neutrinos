@@ -1,6 +1,23 @@
 class TeamsController < ApplicationController
+	include TeamsHelper
+	include MatchesHelper
+
 	def index
-		@teams = Team.all.order(:number)
+		if params[:filter] == "number"
+			@teams = Team.all.order(:number)
+		elsif params[:filter] == "name"
+			@teams = Team.all.order(:name)
+		elsif params[:filter] == "high"
+			@teams = Team.all.sort_by {|t| [-highScore(t), t.name]}
+		elsif params[:filter] == "avg"
+			@teams = Team.all.sort_by {|t| [-avgScore(t), t.name]}
+		elsif params[:filter] == "perc"
+			@teams = Team.all.sort_by {|t| [-winPerc(t), t.name]}
+		elsif params[:filter] == "cont"
+			@teams = Team.all.sort_by {|t| [-avgCont(t), t.name]}
+		else
+			@teams = Team.all.order(:number)
+		end
 	end
 
 	def new

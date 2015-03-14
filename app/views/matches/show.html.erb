@@ -5,15 +5,15 @@
 
 <br>
 <h2><%= red("Red Alliance") %></h2>
-<h4><%= link_to @match.red1.show_team, @match.red1 %></h4>
-<h4><%= link_to @match.red2.show_team, @match.red2 %></h4>
+<h4><a href="<%= team_path(@match.red1) %>" style="color:#FF0000;"> <%= @match.red1.show_team %></a></h4>
+<h4><a href="<%= team_path(@match.red2) %>" style="color:#FF0000;"> <%= @match.red2.show_team %></a></h4>
 
 
 <br>
 <br>
 <h2><%= blue("Blue Alliance") %></h2>
-<h4><%= link_to @match.blue1.show_team, @match.blue1 %></h4>
-<h4><%= link_to @match.blue2.show_team, @match.blue2 %></h4>
+<h4><a href="<%= team_path(@match.blue1) %>" style="color:#0000FF;"> <%= @match.blue1.show_team %></a></h4>
+<h4><a href="<%= team_path(@match.blue2) %>" style="color:#0000FF;"> <%= @match.blue2.show_team %></a></h4>
 
 
 

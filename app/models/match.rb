@@ -10,6 +10,7 @@
 #  red2_id    :integer
 #  red_score  :integer
 #  blue_score :integer
+#  event_id   :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
@@ -20,6 +21,7 @@ class Match < ActiveRecord::Base
 	belongs_to :blue2, :class_name => "Team"
 	belongs_to :red1, :class_name => "Team"
 	belongs_to :red2, :class_name => "Team"
+	belongs_to :event
 
 	validates :blue1_id, presence:true
 	validates :blue2_id, presence:true
@@ -28,6 +30,7 @@ class Match < ActiveRecord::Base
 	validates :number, presence:true, uniqueness:true
 	validates :red_score, presence:true
 	validates :blue_score, presence:true
+	validates :event_id, presence:true
 	validate :isValid
 
 	def isValid
