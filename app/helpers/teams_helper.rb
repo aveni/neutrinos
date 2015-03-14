@@ -9,6 +9,14 @@ module TeamsHelper
 		matches
 	end
 
+	def getEventMatches(team, event)
+		matches = []
+		event.matches.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{team.id}", "#{team.id}", "#{team.id}", "#{team.id}").each do |m|
+			matches << m
+		end
+		matches
+	end
+
 	def highScore(team)
 		high = 0
 		getMatches(team).each do |m|
