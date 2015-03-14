@@ -1,0 +1,1 @@
+LEVELS = ["Local", "State", "Super-Regional", "National", "World"]

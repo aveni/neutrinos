@@ -1,0 +1,15 @@
+<div class="page-header">
+  <h1>Listing Events</h1>
+</div>
+
+<% @events.each_slice(3) do |events| %>
+	<div class="row">
+		<% events.each do |e| %>
+			<div class="col-md-4">
+				<%= render e %>
+			</div>
+		<% end %>
+	</div>
+<% end %>
+
+<%= link_to 'New Event', new_event_path, class:'btn btn-primary' %>

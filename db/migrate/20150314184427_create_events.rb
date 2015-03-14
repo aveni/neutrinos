@@ -6,7 +6,7 @@ class CreateEvents < ActiveRecord::Migration
     	t.integer :day
     	t.integer :month
     	t.integer :year
-    	t.string :type
+    	t.string :level
       t.timestamps null: false
     end
   end
