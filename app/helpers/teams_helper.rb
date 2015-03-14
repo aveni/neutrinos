@@ -1,6 +1,6 @@
 module TeamsHelper
 	def getMatches(team)
-		Match.all.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{@team.id}", "#{@team.id}", "#{@team.id}", "#{@team.id}")
+		Match.all.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{team.id}", "#{team.id}", "#{team.id}", "#{team.id}")
 	end
 
 	def highScore(team)
@@ -31,7 +31,7 @@ module TeamsHelper
 			getMatches(team).each do |m|
 				wins += 1 if teamWon?(m, team)
 			end
-			100*wins/getMatches(team).size
+			(100*wins/getMatches(team).size).round(1)
 		else
 			0
 		end

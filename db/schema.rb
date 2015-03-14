@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150314015353) do
+ActiveRecord::Schema.define(version: 20150314184427) do
+
+  create_table "events", force: :cascade do |t|
+    t.text     "name"
+    t.integer  "day"
+    t.integer  "month"
+    t.integer  "year"
+    t.string   "type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "matches", force: :cascade do |t|
     t.integer  "number"
@@ -21,6 +31,7 @@ ActiveRecord::Schema.define(version: 20150314015353) do
     t.integer  "red2_id"
     t.integer  "red_score"
     t.integer  "blue_score"
+    t.integer  "event_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

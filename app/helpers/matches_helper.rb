@@ -23,7 +23,7 @@ module MatchesHelper
 	def partner(match, team)
 		if alliance(match, team) == -1
 			match.red2 if match.red1_id == team.id
-			match.red2 if match.red1_id == team.id
+			match.red1
 		elsif alliance(match, team) == 1
 			match.blue2 if match.blue1_id == team.id
 			match.blue1

@@ -10,6 +10,7 @@
 #  red2_id    :integer
 #  red_score  :integer
 #  blue_score :integer
+#  event_id   :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

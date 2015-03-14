@@ -1,4 +1,8 @@
 <tr>
 	<td><%= team.number %></td>
-	<td> <%= link_to team.name,team %> </td>
+	<td> <a href="<%= team_path(team) %>" style="	text-decoration: none;"> <%= team.name %></a></td>
+	<td> <%= highScore(team) %> </td>
+	<td> <%= avgScore(team) %> </td>
+	<td> <%= winPerc(team) %>% </td>
+	<td> <%= avgCont(team) %> </td>
 </tr>

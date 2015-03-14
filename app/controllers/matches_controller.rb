@@ -43,7 +43,7 @@ class MatchesController < ApplicationController
 	private
 
 		def match_params
-			params[:match].permit(:number, :blue1_id, :blue2_id, :red1_id, :red2_id, :blue_score, :red_score)
+			params[:match].permit(:number, :event_id, :blue1_id, :blue2_id, :red1_id, :red2_id, :blue_score, :red_score)
 		end
 
 
