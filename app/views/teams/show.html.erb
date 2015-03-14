@@ -2,8 +2,16 @@
 	<h1>#<%= @team.show_team %></h1>
 </div>
 
+<h3>High Score: <%= highScore(@team) %></h3>
+<h3>Average Score: <%= avgScore(@team) %></h3>
+<h3>Win Percentage: <%= winPerc(@team) %>%</h3>
+<h3>Average Contribution: <%= avgCont(@team) %></h3>
+
+
+
 <br>
-<h4>Matches for <%= @team.name %></h4>
+<br>
+<h4 class="text-center">Matches for <%= @team.name %></h4>
 <table class='table table-striped table-hover'>
   <thead>
     <tr>
