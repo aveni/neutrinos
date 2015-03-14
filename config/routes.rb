@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
 
   resources :teams
-  resources :matches
+  resources :events do
+    resources :matches
+  end
 
   root 'teams#index'
 

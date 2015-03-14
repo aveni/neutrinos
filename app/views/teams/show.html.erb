@@ -23,7 +23,7 @@
     <th><%= blue("Blue") %></th>
   </thead>
 
-<% matches = getMatches(@team).order(:number) %>
+<% matches = getMatches(@team) %>
 
   <tbody>
     <%= render matches %>

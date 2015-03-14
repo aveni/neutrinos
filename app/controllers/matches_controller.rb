@@ -1,11 +1,10 @@
 class MatchesController < ApplicationController
-
-	def index
-		@matches = Match.all.order(:number)
-	end
+	include TeamsHelper
+	include MatchesHelper
+	before_action :set_event
 
 	def new
-		@match = Match.new
+		@match = Match.new(event_id: @event.id)
 	end
 
 	def show
@@ -19,7 +18,8 @@ class MatchesController < ApplicationController
 	def create
 		@match = Match.new(match_params)
 		if @match.save
-			redirect_to matches_path, notice:'Match successfully created'
+			updateEvent(@match)
+			redirect_to @event, notice:'Match successfully created'
 		else
 			render 'new'
 		end
@@ -28,7 +28,8 @@ class MatchesController < ApplicationController
 	def update
 		@match = Match.find(params[:id])
 		if @match.update(match_params)
-			redirect_to matches_path, notice:'Match successfully updated'
+			updateEvent(@match)
+			redirect_to @event, notice:'Match successfully updated'
 		else
 			render 'edit'
 		end
@@ -37,13 +38,18 @@ class MatchesController < ApplicationController
 	def destroy
 		@match = Match.find(params[:id])
 		@match.destroy unless @match.nil?
-		redirect_to matches_path
+		cleanEvent(@event)
+		redirect_to @event
 	end	
 
 	private
 
 		def match_params
 			params[:match].permit(:number, :event_id, :blue1_id, :blue2_id, :red1_id, :red2_id, :blue_score, :red_score)
+		end
+
+		def set_event
+			@event = Event.find(params[:event_id])
 		end
 
 

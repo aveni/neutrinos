@@ -1,5 +1,5 @@
 <tr>
-	<td> <a href="<%= match_path(match) %>" style="color:#000000;	text-decoration: none;"> <%= match.number %> </a></td>
+	<td> <a href="<%= event_match_path(match.event, match) %>" style="color:#000000;	text-decoration: none;"> <%= match.number %> </a></td>
 	<td> <a href="<%= team_path(match.red1) %>" style="color:#FF0000;	text-decoration: none;"> <%= match.red1.show_team %> </a></td>
 	<td> <a href="<%= team_path(match.red2) %>" style="color:#FF0000;	text-decoration: none;"> <%= match.red2.show_team %> </a></td>
 	<td> <a href="<%= team_path(match.blue1) %>" style="color:#0000FF;	text-decoration: none;"> <%= match.blue1.show_team %> </a></td>

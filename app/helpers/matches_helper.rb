@@ -10,6 +10,20 @@ module MatchesHelper
 		end
 	end
 
+	def cleanEvent(event)
+		event.teams.each do |t|
+			event.teams.delete(t) if event.matches.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{t.id}", "#{t.id}", "#{t.id}", "#{t.id}").size == 0
+		end
+	end
+
+	def updateEvent(match)
+		event = match.event
+		event.teams << match.blue1 if event.teams.where(id:match.blue1_id).size == 0
+		event.teams << match.blue2 if event.teams.where(id:match.blue2_id).size == 0
+		event.teams << match.red1 if event.teams.where(id:match.red1_id).size == 0
+		event.teams << match.red2 if event.teams.where(id:match.red2_id).size == 0
+	end
+
 	def alliance(match, team)
 		if match.red1_id == team.id || match.red2_id == team.id
 			-1

@@ -2,9 +2,10 @@
 
 	<h1><%= controller.action_name.capitalize %> Match </h1>
 	<br>
-	<%= simple_form_for(@match, html:{class:'form-horizontal'}, wrapper: :horizontal_form) do |f| %>
+	<%= simple_form_for([@event, @match], html:{class:'form-horizontal'}, wrapper: :horizontal_form) do |f| %>
 
 		<% f.error_notification %>
+		<%= f.hidden_field :event_id %>
 		<%= f.input :number, label: 'Match Number' %>
 		<%= f.input :blue1_id, label: 'Blue 1', collection: Team.all.order(:number), label_method: :show_team %>
 		<%= f.input :blue2_id, label: 'Blue 2', collection: Team.all.order(:number), label_method: :show_team %>

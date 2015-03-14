@@ -7,7 +7,7 @@
 #  day        :integer
 #  month      :integer
 #  year       :integer
-#  type       :string
+#  level      :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
