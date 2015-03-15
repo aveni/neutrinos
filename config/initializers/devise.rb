@@ -256,4 +256,7 @@ Devise.setup do |config|
   # When using omniauth, Devise cannot automatically set Omniauth path,
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
+
+  config.secret_key = '20f4e2d86659963b4cbc1ae3698e335a61d0d8c99dbac46c7df485f3aba5ced9ff0a310835d9f968a33eee55a4b8cde590abef100dd0cc69aacce2833c4323a8'
+
 end
