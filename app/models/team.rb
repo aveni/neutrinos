@@ -15,7 +15,7 @@ class Team < ActiveRecord::Base
 	has_and_belongs_to_many :events
 	after_destroy :cleanup
 
-	validates :number, presence:true, uniqueness:true
+	validates :number, presence:true, uniqueness:true, :numericality => {:greater_than => 0}
 	validates :name, presence:true
 
 	def show_team

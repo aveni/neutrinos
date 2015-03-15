@@ -18,7 +18,7 @@ class Event < ActiveRecord::Base
 
 	validates :day, presence:true
 	validates :month, presence:true
-	validates :year, presence:true
+	validates :year, presence:true, :numericality => {:greater_than => 0}
 	validates :name, presence:true, uniqueness:true
-	validates :level, presence:true, inclusion: {in: LEVELS}
+	validates :level, presence:true
 end

@@ -2,7 +2,7 @@ class CreateMatches < ActiveRecord::Migration
   def change
     create_table :matches do |t|
 
-    	t.integer :number
+    	t.string :number
     	t.belongs_to :blue1
     	t.belongs_to :blue2
     	t.belongs_to :red1

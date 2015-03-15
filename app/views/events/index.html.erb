@@ -2,7 +2,7 @@
   <h1>Listing Events</h1>
 </div>
 
-<% @events.each_slice(3) do |events| %>
+<% @events.sort_by{|e| [-e.year, -e.month, -e.day] }.each_slice(3) do |events| %>
 	<div class="row">
 		<% events.each do |e| %>
 			<div class="col-md-4">

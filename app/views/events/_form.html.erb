@@ -6,7 +6,7 @@
 
 		<% f.error_notification %>
 		<%= f.input :name %>
-		<%= f.input :month, collection: 1..12  %>
+		<%= f.input :month, collection: MONTHS  %>
 		<%= f.input :day, collection: 1..31 %>
 		<%= f.input :year %>
 		<%= f.input :level, collection: LEVELS %>

@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20150314194436) do
   end
 
   create_table "matches", force: :cascade do |t|
-    t.integer  "number"
+    t.string   "number"
     t.integer  "blue1_id"
     t.integer  "blue2_id"
     t.integer  "red1_id"

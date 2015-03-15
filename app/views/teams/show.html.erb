@@ -1,5 +1,5 @@
 <div class="page-header">
-	<h1>#<%= @team.show_team %></h1>
+	<h1><%= @team.show_team %></h1>
 </div>
 
 <h4>High Score: <%= highScore(@team) %></h4>
@@ -8,9 +8,16 @@
 <h4>Average Contribution: <%= avgCont(@team) %></h4>
 
 
-
 <br>
 <br>
+<div class="row text-right">
+  <form class="navbar-form" role="search">
+    <div class="form-group">
+      <input type="text" class="form-control" placeholder="Team Number or Name" name="search">
+    </div>
+    <button type="submit" class="btn btn-info">Search Matches</button>
+  </form>
+</div>
 <h2>Matches for <%= @team.name %></h2><br>
 
 <% @team.events.each do |e| %>
@@ -27,10 +34,21 @@
       <th><%= blue("Blue") %></th>
     </thead>
 
-    <% matches = getEventMatches(@team, e) %>
+    <% matches = [] %>
+
+    <% if params[:search] %>
+      <% teams = Team.all.where('lower(name) LIKE ? OR number LIKE ?', "%#{params[:search]}%".downcase, "%#{params[:search]}%") %>
+      <% ematches = getEventMatches(@team, e) %>
+      <% ematches.each do |m| %>
+        <% matches << m if !matches.include?(m) && 
+        (teams.include?(m.blue1) || teams.include?(m.blue2) || teams.include?(m.red1) || teams.include?(m.red2)) %>
+      <% end %>
+    <% else %>
+      <% matches = getEventMatches(@team, e) %>
+    <% end %>
 
     <tbody>
-      <%= render matches %>
+      <%= render matches.sort_by {|m| m.number[0]=~ /\A\d+\z/ ? ['A', Integer(m.number)] : [m.number[0], Integer(m.number[1..-1])] } %>
     </tbody>
   </table>
   <br>
