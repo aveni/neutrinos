@@ -42,7 +42,7 @@
   </tbody>
 </table>
 <div class="text-right">
-    <%= link_to 'New Match', new_event_match_path(@event), class:'btn btn-primary' %> <br><br>
+    <%= link_to 'New Match', new_event_match_path(@event), class:'btn btn-primary' if can? :modify, Match%> <br><br>
 </div>
 
 
@@ -72,6 +72,6 @@
 <br>
 <br>
 <div class="row text-right">
-	<%= link_to fa_icon('pencil', text:'Edit Event'), edit_event_path(@event), class:'btn btn-default' %> 
-	<%= link_to fa_icon('trash-o', text:'Destroy Event'), @event, method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-danger' %>
+	<%= link_to fa_icon('pencil', text:'Edit Event'), edit_event_path(@event), class:'btn btn-default' if can? :modify, Event%> 
+	<%= link_to fa_icon('trash-o', text:'Destroy Event'), @event, method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-danger' if can? :destroy, Event%>
 </div>
