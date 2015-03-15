@@ -58,8 +58,8 @@ class Match < ActiveRecord::Base
 	end
 
 	def uniqueEventNum
-		if Event.find(event_id).matches.where(number:number).size != 0
-			errors.add(:number, "Number has already been taken")
+		if Event.find(event_id).matches.where(number:number).size > 0
+			errors.add(:number, "Number has already been taken") if Event.find(event_id).matches.where(number:number).first.id != id
 		end
 	end
 
