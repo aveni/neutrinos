@@ -25,9 +25,10 @@
     <th><%= blue("Blue") %></th>
   </thead>
 
-  <% matches = [] %>
+  <%= params[:search] %>
 
-  <% if params[:search] %>
+  <% matches = [] %>
+  <% if false %>
     <% teams = Team.all.where('lower(name) LIKE ? OR number LIKE ?', "%#{params[:search]}%".downcase, "%#{params[:search]}%") %>
     <% teams.each do |t| %>
       <% tmatches = getEventMatches(t, @event) %>
