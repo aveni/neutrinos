@@ -13,8 +13,19 @@
   </form>
 </div>
 
+<% matches = [] %>
+  <% if params[:search] %>
+    <% teams = Team.all.where('lower(name) LIKE ? OR number LIKE ?', "%#{params[:search]}%".downcase, "%#{params[:search]}%") %>
 
-<h2>Matches<%= params[:search] %></h2>
+    <% teams.each do |t| %>
+      <%= t.name %>
+    <% end %>
+  <% else %>
+    <% matches = @event.matches %>
+  <% end %>
+
+
+<h2>Matches</h2>
 <table class='table table-striped table-hover'>
   <thead>
     <th>Match #</th>
@@ -25,19 +36,6 @@
     <th><%= red("Red") %></th>
     <th><%= blue("Blue") %></th>
   </thead>
-
-
-  <% matches = [] %>
-  <% if false %>
-    <% teams = Team.all.where('lower(name) LIKE ? OR number LIKE ?', "%#{params[:search]}%".downcase, "%#{params[:search]}%") %>
-    <% teams.each do |t| %>
-      <% tmatches = getEventMatches(t, @event) %>
-      <% tmatches.each {|m| matches << m if !matches.include?(m)} %>
-    <% end %>
-  <% else %>
-    <% matches = @event.matches %>
-  <% end %>
-
   <tbody>
     <%= render matches.sort_by {|m| m.number[0]=~ /\A\d+\z/ ? ['A', Integer(m.number)] : [m.number[0], Integer(m.number[1..-1])] } %>
   </tbody>
