@@ -18,7 +18,8 @@
     <% teams = Team.all.where('lower(name) LIKE ?', "%#{params[:search]}%".downcase) %>
 
     <% teams.each do |t| %>
-      <%= t.name %>
+      <% tmatches = getEventMatches(t, @event) %>
+      <% tmatches.each {|m| matches << m if !matches.include?(m)} %>
     <% end %>
   <% else %>
     <% matches = @event.matches %>
