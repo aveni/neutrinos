@@ -13,5 +13,5 @@
 <% end %>
 <br>
 <div class="text-right">
-	<%= link_to 'New Event', new_event_path, class:'btn btn-primary text-right' %>
+	<%= link_to 'New Event', new_event_path, class:'btn btn-primary text-right' if can? :modify, Event%>
 </div>

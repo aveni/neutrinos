@@ -1,8 +1,8 @@
 class TeamsController < ApplicationController
 	include TeamsHelper
 	include MatchesHelper
-
   before_action :authenticate_user!, except: [:index, :show]
+	load_and_authorize_resource
 
 	def index
 		if params[:filter] == "name"

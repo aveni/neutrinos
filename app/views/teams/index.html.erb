@@ -19,5 +19,5 @@
 
 <br>
 <div class="text-right">
-  <%= link_to 'New Team', new_team_path, class:'btn btn-primary' %>
+  <%= link_to 'New Team', new_team_path, class:'btn btn-primary' if can? :modify, Team %>
 </div>

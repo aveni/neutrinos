@@ -57,6 +57,6 @@
 <br>
 <br>
 <div class="row text-right">
-	<%= link_to fa_icon('pencil', text:'Edit Team'), edit_team_path(@team), class:'btn btn-default' %> 
-	<%= link_to fa_icon('trash-o', text:'Destroy Team'), @team, method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-danger' %>
+	<%= link_to fa_icon('pencil', text:'Edit Team'), edit_team_path(@team), class:'btn btn-default' if can? :modify, Team%> 
+	<%= link_to fa_icon('trash-o', text:'Destroy Team'), @team, method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-danger' if can? :destroy, Team%>
 </div>

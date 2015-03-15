@@ -3,6 +3,7 @@ class MatchesController < ApplicationController
 	include MatchesHelper
 	before_action :set_event
 	before_action :authenticate_user!, except: [:show]
+	load_and_authorize_resource
 
 
 	def new
