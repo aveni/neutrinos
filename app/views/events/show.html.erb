@@ -15,7 +15,7 @@
 
 <% matches = [] %>
   <% if params[:search] %>
-    <% teams = Team.all.where('lower(name) LIKE ? OR number LIKE ?', "%#{params[:search]}%".downcase, "%#{params[:search]}%") %>
+    <% teams = Team.all %>
 
     <% teams.each do |t| %>
       <%= t.name %>
