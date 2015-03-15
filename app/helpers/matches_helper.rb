@@ -35,12 +35,18 @@ module MatchesHelper
 	end
 
 	def partner(match, team)
-		if alliance(match, team) == -1
-			match.red2 if match.red1_id == team.id
-			match.red1
+		if alliance(match, team) == -1		
+			if match.red1_id == team.id
+				match.red2
+			else 
+				match.red1
+			end
 		elsif alliance(match, team) == 1
-			match.blue2 if match.blue1_id == team.id
-			match.blue1
+			if match.blue1_id == team.id
+				match.blue2
+			else 
+				match.blue1
+			end
 		end
 	end
 
