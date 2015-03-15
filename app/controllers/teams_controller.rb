@@ -2,6 +2,8 @@ class TeamsController < ApplicationController
 	include TeamsHelper
 	include MatchesHelper
 
+  before_action :authenticate_user!, except: [:index, :show]
+
 	def index
 		if params[:filter] == "name"
 			@teams = Team.all.order(:name)

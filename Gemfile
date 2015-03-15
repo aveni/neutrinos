@@ -21,6 +21,9 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'font-awesome-rails', '~> 4.2.0.0'
 # Use Simple Form
 gem 'simple_form', '~> 3.1.0'
+# Use Devise
+gem 'devise', '~> 3.4'
+gem 'devise-bootstrap-views', '~> 0.0.3'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
