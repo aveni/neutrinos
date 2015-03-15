@@ -2,6 +2,8 @@ class MatchesController < ApplicationController
 	include TeamsHelper
 	include MatchesHelper
 	before_action :set_event
+	before_action :authenticate_user!, except: [:show]
+
 
 	def new
 		@match = Match.new(event_id: @event.id)
