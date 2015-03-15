@@ -3,9 +3,7 @@ class TeamsController < ApplicationController
 	include MatchesHelper
 
 	def index
-		if params[:filter] == "number"
-			@teams = Team.all.order(:number)
-		elsif params[:filter] == "name"
+		if params[:filter] == "name"
 			@teams = Team.all.order(:name)
 		elsif params[:filter] == "high"
 			@teams = Team.all.sort_by {|t| [-highScore(t), t.name]}

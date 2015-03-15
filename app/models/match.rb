@@ -27,11 +27,12 @@ class Match < ActiveRecord::Base
 	validates :blue2_id, presence:true
 	validates :red1_id, presence:true
 	validates :red2_id, presence:true
-	validates :number, presence:true, uniqueness:true
-	validates :red_score, presence:true
-	validates :blue_score, presence:true
+	validates :number, presence:true
+	validates :red_score, presence:true, :numericality => {:greater_than_or_equal_to => 0}
+	validates :blue_score, presence:true, :numericality => {:greater_than_or_equal_to => 0}
 	validates :event_id, presence:true
 	validate :isValid
+	validate :uniqueEventNum
 
 	def isValid
 		if blue1_id == blue2_id
@@ -52,6 +53,12 @@ class Match < ActiveRecord::Base
 		elsif red1_id == red2_id
 			errors.add(:red1_id, "Repeated team")
 			errors.add(:red2_id, "Repeated team")
+		end
+	end
+
+	def uniqueEventNum
+		if Event.find(event_id).matches.where(number:number).size != 0
+			errors.add(:number, "Number has already been taken")
 		end
 	end
 
