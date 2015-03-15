@@ -17,6 +17,16 @@ module TeamsHelper
 		matches
 	end
 
+	def eventHighScore(team, event)
+		high = 0
+		getEventMatches(team, event).each do |m|
+			if teamScore(m, team) > high
+				high = teamScore(m, team)
+			end
+		end
+		high
+	end
+
 	def highScore(team)
 		high = 0
 		getMatches(team).each do |m|
@@ -25,6 +35,18 @@ module TeamsHelper
 			end
 		end
 		high
+	end
+
+	def eventAvgCont(team, event)
+		points=0.0
+		if (getEventMatches(team, event).size > 0)
+			getEventMatches(team, event).each do |m|
+				points += teamScore(m, team) - 0.5*eventAvgScore(partner(m, team), event)
+			end
+			(points/getEventMatches(team, event).size).round(1)
+		else
+			0
+		end
 	end
 
 	def avgCont(team)
@@ -39,6 +61,18 @@ module TeamsHelper
 		end
 	end
 
+	def eventWinPerc(team, event)
+		wins = 0.0
+		if (getEventMatches(team, event).size > 0)
+			getEventMatches(team, event).each do |m|
+				wins += 1 if teamWon?(m, team)
+			end
+			(100*wins/getEventMatches(team, event).size).round(1)
+		else
+			0
+		end
+	end
+
 	def winPerc(team)
 		wins = 0.0
 		if (getMatches(team).size > 0)
@@ -46,6 +80,19 @@ module TeamsHelper
 				wins += 1 if teamWon?(m, team)
 			end
 			(100*wins/getMatches(team).size).round(1)
+		else
+			0
+		end
+	end
+
+
+	def eventAvgScore(team, event)
+		points = 0.0
+		if (getEventMatches(team, event).size > 0)
+			getEventMatches(team, event).each do |m|
+				points += teamScore(m, team)
+			end
+			(points/getEventMatches(team, event).size).round(1)
 		else
 			0
 		end

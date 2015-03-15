@@ -7,6 +7,7 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+<div id="wrap">
 
 <nav class="navbar navbar-default" role="navigation">
 			<div class="container">
@@ -43,6 +44,10 @@
 
 	<%= yield %>
 </div>
-<br>
+
+</div>
+
+<%= render "/layouts/footer" %>
+
 </body>
 </html>
