@@ -37,7 +37,7 @@
     <% matches = [] %>
 
     <% if params[:search] %>
-      <% teams = Team.all.where('lower(name) LIKE ? OR number LIKE ?', "%#{params[:search]}%".downcase, "%#{params[:search]}%") %>
+      <% teams = Team.all.where('lower(name) LIKE ? OR number = ?', "%#{params[:search]}%".downcase, "#{params[:search]}".to_i) %> 
       <% ematches = getEventMatches(@team, e) %>
       <% ematches.each do |m| %>
         <% matches << m if !matches.include?(m) && 
