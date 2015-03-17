@@ -12,7 +12,6 @@
   </form>
 </div>
 
-<% matches = sortMatches(searchMatches(@event.matches, params[:search])) %>
 <br>
 <div class="text-right">
     <%= link_to 'New Match', new_event_match_path(@event), class:'btn btn-primary' if can? :modify, Match%> <br><br>
@@ -32,7 +31,7 @@
   </tr>
   </thead>
   <tbody>
-    <%= render matches %>
+    <%= render sortMatches(searchMatches(@event.matches, params[:search])) %>
   </tbody>
 </table>
 
@@ -69,15 +68,14 @@
 
   <tbody>
     <% teams.each do |t| %>
-    <% etmatches = getEventMatches(t, @event) %>
     <tr>
       <td><%= t.number %></td>
       <td> <a href="<%= team_path(t) %>" style=" text-decoration: none;"> <%= t.name %></a></td>
-      <td><%= highScore(etmatches, t) %></td>
-      <td><%= avgScore(etmatches, t) %></td>
-      <td><%= stDev(etmatches, t) %></td>
-      <td><%= winPerc(etmatches, t) %></td>
-      <td><%= avgCont(etmatches, t) %></td>
+      <td><%= highScore(getEventMatches(t, @event), t) %></td>
+      <td><%= avgScore(getEventMatches(t, @event), t) %></td>
+      <td><%= stDev(getEventMatches(t, @event), t) %></td>
+      <td><%= winPerc(getEventMatches(t, @event), t) %></td>
+      <td><%= avgCont(getEventMatches(t, @event), t) %></td>
     </tr>
     <% end %>
   </tbody>
