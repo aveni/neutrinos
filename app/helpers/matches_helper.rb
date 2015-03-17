@@ -1,8 +1,17 @@
 module MatchesHelper
 
+	def getMatches(team, event)
+		Match.all.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{team.id}", "#{team.id}", "#{team.id}", "#{team.id}")
+	end
+	
+	def getEventMatches(team, event)
+		event.matches.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{team.id}", "#{team.id}", "#{team.id}", "#{team.id}")
+	end
+
+
 	def cleanEvent(event)
 		event.teams.each do |t|
-			event.teams.delete(t) if event.matches.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{t.id}", "#{t.id}", "#{t.id}", "#{t.id}").size == 0
+			event.teams.delete(t) if getEventMatches(t, event).size == 0
 		end
 	end
 
