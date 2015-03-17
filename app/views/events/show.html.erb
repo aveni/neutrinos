@@ -31,7 +31,9 @@ $(document).ready(
     $('#matches_table').DataTable({
         "ordering": false,
         "paging": false,
-        "info" : false
+        "info" : false,
+        "scrollY":"250px",
+        "scrollCollapse": true
     })
   }
   )
@@ -73,7 +75,9 @@ $(document).ready(
     $('#teams_table').DataTable({
         "order": [[ 0, "asc" ]],
         "paging": false,
-        "info" : false
+        "info" : false,
+        "scrollY":"250px",
+        "scrollCollapse": true
     })
   }
   )
