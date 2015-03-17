@@ -1,14 +1,9 @@
 module TeamsHelper
 
-	def getEventMatches(team, event)
-		event.matches.select{|m| hasTeam(m, team)}
-	end
-
 
 	def highScore(matches, team)
 		high = 0
-		tmatches = matches.select{|m| hasTeam(m, team)}
-		tmatches.each do |m|
+		matches.each do |m|
 			if teamScore(m, team) > high
 				high = teamScore(m, team)
 			end
@@ -18,12 +13,15 @@ module TeamsHelper
 
 	def avgCont(matches, team)
 		points=0.0
-		tmatches = matches.select{|m| hasTeam(m, team)}
-		if tmatches.size > 0
-			tmatches.each do |m|
-				points += teamScore(m, team) - 0.5*avgScore(m.event.matches, partner(m, team))
+		num = 0
+		if matches.size > 0
+			matches.each do |m|
+				if hasTeam(m, team)
+					points += teamScore(m, team) - 0.5*avgScore(m.event.matches, partner(m, team))
+					num += 1
+				end
 			end
-			(points/tmatches.size).round(1)
+			(points/num).round(1)
 		else
 			0
 		end
@@ -31,12 +29,15 @@ module TeamsHelper
 
 	def winPerc(matches, team)
 		wins = 0.0
-		tmatches = matches.select{|m| hasTeam(m, team)}
-		if tmatches.size > 0
-			tmatches.each do |m|
-				wins += 1 if teamWon?(m, team)
+		num = 0
+		if matches.size > 0
+			matches.each do |m|
+				if hasTeam(m, team)
+					wins += 1 if teamWon?(m, team)
+					num += 1
+				end
 			end
-			(100*wins/tmatches.size).round(1)
+			(100*wins/num).round(1)
 		else
 			0
 		end
@@ -44,12 +45,15 @@ module TeamsHelper
 
 	def avgScore(matches, team)
 		points = 0.0
-		tmatches = matches.select{|m| hasTeam(m, team)}
-		if tmatches.size > 0
-			tmatches.each do |m|
-				points += teamScore(m, team)
+		num = 0
+		if matches.size > 0
+			matches.each do |m|
+				if hasTeam(m, team)
+					points += teamScore(m, team)
+					num += 1
+				end
 			end
-			(points/tmatches.size).round(1)
+			(points/num).round(1)
 		else
 			0
 		end
@@ -57,10 +61,11 @@ module TeamsHelper
 
 	def stDev(matches, team)
 		scores=[]
-		tmatches = matches.select{|m| hasTeam(m, team)}
-		if tmatches.size > 0
-			tmatches.each do |m|
-				scores << teamScore(m, team)
+		if matches.size > 0
+			matches.each do |m|
+				if hasTeam(m, team)
+					scores << teamScore(m, team)
+				end
 			end
 			avg = 0.0
 			scores.each {|s| avg += s} 
