@@ -68,14 +68,15 @@
 
   <tbody>
     <% teams.each do |t| %>
+    <% tmatches = getEventMatches(t) %>
     <tr>
       <td><%= t.number %></td>
       <td> <a href="<%= team_path(t) %>" style=" text-decoration: none;"> <%= t.name %></a></td>
-      <td><%= highScore(getEventMatches(t, @event), t) %></td>
-      <td><%= avgScore(getEventMatches(t, @event), t) %></td>
-      <td><%= stDev(getEventMatches(t, @event), t) %></td>
-      <td><%= winPerc(getEventMatches(t, @event), t) %></td>
-      <td><%= avgCont(getEventMatches(t, @event), t) %></td>
+      <td><%= highScore(tmatches, t) %></td>
+      <td><%= avgScore(tmatches, t) %></td>
+      <td><%= stDev(tmatches, t) %></td>
+      <td><%= winPerc(tmatches, t) %></td>
+      <td><%= avgCont(tmatches, t) %></td>
     </tr>
     <% end %>
   </tbody>
