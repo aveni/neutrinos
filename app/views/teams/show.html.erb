@@ -10,25 +10,13 @@
 <h4>Average Contribution: <%= avgCont(@team) %></h4>
 
 
-
 <br>
 <br>
-<div class="row text-right">
-  <form class="navbar-form" role="search">
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="Team Number or Name" name="search">
-    </div>
-    <button type="submit" class="btn btn-info">Search Event Matches</button>
-  </form>
-</div>
 <h2>Events for <%= @team.name %></h2><br>
 
 <% @team.events.each do |e| %>
   <h4><%= link_to e.name, e %></h4>
-  <h5 class = "text-right">High Score: <%= highScore(@team, e) %> | Avg Score: <%= avgScore(@team, e) %>
-   | St. Dev: <%= stDev(@team, e) %> | Win %: <%= winPerc(@team, e) %> | Avg Contribution: <%= avgCont(@team, e) %></h5>
-
-  <table class='table table-striped table-hover'>
+  <table class='display'>
     <thead>
     <tr>
       <th>Match #</th>
@@ -42,11 +30,12 @@
     </thead>
 
     <tbody>
-      <%= render sortMatches(searchMatches(getEventMatches(@team, e), params[:search])) %>
+      <%= render sortMatches(getEventMatches(@team, e)) %>
     </tbody>
   </table>
-  <br>
-
+  <h5 class = "text-right">High Score: <%= highScore(@team, e) %> | Avg Score: <%= avgScore(@team, e) %>
+   | St. Dev: <%= stDev(@team, e) %> | Win %: <%= winPerc(@team, e) %> | Avg Contribution: <%= avgCont(@team, e) %></h5>
+  <br><br>
 <% end %>
 <br>
 <br>
@@ -54,3 +43,16 @@
 	<%= link_to fa_icon('pencil', text:'Edit Team'), edit_team_path(@team), class:'btn btn-default' if can? :modify, Team%> 
 	<%= link_to fa_icon('trash-o', text:'Destroy Team'), @team, method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-danger' if can? :destroy, Team%>
 </div>
+
+
+<script>
+$(document).ready(
+  function() {
+    $('table.display').DataTable({
+        "ordering": false,
+        "paging": false,
+        "info" : false
+    })
+  }
+  )
+</script>
