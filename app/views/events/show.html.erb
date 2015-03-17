@@ -68,7 +68,7 @@
 
   <tbody>
     <% teams.each do |t| %>
-    <% tmatches = getEventMatches(t) %>
+    <% tmatches = getEventMatches(t, @event) %>
     <tr>
       <td><%= t.number %></td>
       <td> <a href="<%= team_path(t) %>" style=" text-decoration: none;"> <%= t.name %></a></td>
