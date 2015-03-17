@@ -54,7 +54,7 @@ module MatchesHelper
 	end
 
 	def hasTeam(match, team)
-		team == match.red1 || team == match.red2 || team == match.blue1 || team == match.blue2
+		team.id == match.red1_id || team.id == match.red2_id || team.id == match.blue1_id || team.id == match.blue2_id
 	end
 
 	def getTeams(match)
