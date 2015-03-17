@@ -1,4 +1,4 @@
-<% matches = Match.all %>
+<% matches = getMatches(team) %>
 <tr>
 	<td><%= team.number %></td>
 	<td> <a href="<%= team_path(team) %>" style="	text-decoration: none;"> <%= team.name %></a></td>

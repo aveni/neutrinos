@@ -13,15 +13,11 @@ module TeamsHelper
 
 	def avgCont(matches, team)
 		points=0.0
-		num = 0
 		if matches.size > 0
 			matches.each do |m|
-				if hasTeam(m, team)
-					points += teamScore(m, team) - 0.5*avgScore(m.event.matches, partner(m, team))
-					num += 1
-				end
+				points += teamScore(m, team) - 0.5*avgScore(m.event.matches, partner(m, team))
 			end
-			(points/num).round(1)
+			(points/matches.size).round(1)
 		else
 			0
 		end
@@ -29,15 +25,11 @@ module TeamsHelper
 
 	def winPerc(matches, team)
 		wins = 0.0
-		num = 0
 		if matches.size > 0
 			matches.each do |m|
-				if hasTeam(m, team)
-					wins += 1 if teamWon?(m, team)
-					num += 1
-				end
+				wins += 1 if teamWon?(m, team)
 			end
-			(100*wins/num).round(1)
+			(100*wins/matches.size).round(1)
 		else
 			0
 		end
@@ -45,15 +37,11 @@ module TeamsHelper
 
 	def avgScore(matches, team)
 		points = 0.0
-		num = 0
 		if matches.size > 0
 			matches.each do |m|
-				if hasTeam(m, team)
-					points += teamScore(m, team)
-					num += 1
-				end
+				points += teamScore(m, team)
 			end
-			(points/num).round(1)
+			(points/matches.size).round(1)
 		else
 			0
 		end
@@ -63,9 +51,7 @@ module TeamsHelper
 		scores=[]
 		if matches.size > 0
 			matches.each do |m|
-				if hasTeam(m, team)
-					scores << teamScore(m, team)
-				end
+				scores << teamScore(m, team)
 			end
 			avg = 0.0
 			scores.each {|s| avg += s} 
