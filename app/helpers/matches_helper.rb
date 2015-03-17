@@ -1,7 +1,13 @@
 module MatchesHelper
 
 	def getMatches(team)
-		Match.all.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{team.id}", "#{team.id}", "#{team.id}", "#{team.id}")
+		matches = []
+		team.events.each do |e|
+			e.matches.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{team.id}", "#{team.id}", "#{team.id}", "#{team.id}").each do |m|
+				matches << m
+			end
+		end
+		matches
 	end
 	
 	def getEventMatches(team, event)
