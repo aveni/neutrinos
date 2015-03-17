@@ -1,14 +1,13 @@
 <div class="page-header">
 	<h1><%= @team.show_team %></h1>
 </div>
-<% tMatches = getMatches(@team) %>
 
 <h2>Season Data</h2>
-<h4>High Score: <%= highScore(tMatches, @team) %></h4>
-<h4>Average Score: <%= avgScore(tMatches, @team) %></h4>
-<h4>Standard Deviation: <%= stDev(tMatches, @team) %></h4>
-<h4>Win Percentage: <%= winPerc(tMatches, @team) %>%</h4>
-<h4>Average Contribution: <%= avgCont(tMatches, @team) %></h4>
+<h4>High Score: <%= highScore(getMatches(@team), @team) %></h4>
+<h4>Average Score: <%= avgScore(getMatches(@team), @team) %></h4>
+<h4>Standard Deviation: <%= stDev(getMatches(@team), @team) %></h4>
+<h4>Win Percentage: <%= winPerc(getMatches(@team), @team) %>%</h4>
+<h4>Average Contribution: <%= avgCont(getMatches(@team), @team) %></h4>
 
 
 
@@ -25,10 +24,9 @@
 <h2>Events for <%= @team.name %></h2><br>
 
 <% @team.events.each do |e| %>
-  <% etmatches = getEventMatches(@team, e) %>
   <h4><%= link_to e.name, e %></h4>
-  <h5 class = "text-right">High Score: <%= highScore(etmatches, @team) %> | Avg Score: <%= avgScore(etmatches, @team) %>
-   | St. Dev: <%= stDev(etmatches, @team) %> | Win %: <%= winPerc(etmatches, @team) %> | Avg Contribution: <%= avgCont(etmatches, @team) %></h5>
+  <h5 class = "text-right">High Score: <%= highScore(getEventMatches(@team, e), @team) %> | Avg Score: <%= avgScore(getEventMatches(@team, e), @team) %>
+   | St. Dev: <%= stDev(getEventMatches(@team, e), @team) %> | Win %: <%= winPerc(getEventMatches(@team, e), @team) %> | Avg Contribution: <%= avgCont(getEventMatches(@team, e), @team) %></h5>
 
   <table class='table table-striped table-hover'>
     <thead>
@@ -43,10 +41,8 @@
     </tr>
     </thead>
 
-    <% matches = sortMatches(searchMatches(etmatches, params[:search])) %>
-
     <tbody>
-      <%= render matches %>
+      <%= render sortMatches(searchMatches(getEventMatches(@team, e), params[:search])) %>
     </tbody>
   </table>
   <br>
