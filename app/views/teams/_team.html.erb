@@ -1,8 +1,10 @@
+<% matches = Match.all %>
 <tr>
 	<td><%= team.number %></td>
 	<td> <a href="<%= team_path(team) %>" style="	text-decoration: none;"> <%= team.name %></a></td>
-	<td> <%= highScore(team) %> </td>
-	<td> <%= avgScore(team) %> </td>
-	<td> <%= winPerc(team) %>% </td>
-	<td> <%= avgCont(team) %> </td>
+	<td> <%= highScore(matches, team) %> </td>
+	<td> <%= avgScore(matches, team) %> </td>
+	<td> <%= stDev(matches, team) %> </td>
+	<td> <%= winPerc(matches, team) %>% </td>
+	<td> <%= avgCont(matches, team) %> </td>
 </tr>

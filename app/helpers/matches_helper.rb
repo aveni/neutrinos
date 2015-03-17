@@ -1,5 +1,48 @@
 module MatchesHelper
 
+	def cleanEvent(event)
+		event.teams.each do |t|
+			event.teams.delete(t) if event.matches.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{t.id}", "#{t.id}", "#{t.id}", "#{t.id}").size == 0
+		end
+	end
+
+	def updateEvent(match)
+		event = match.event
+		teams = getTeams(match)
+		teams.each do |t|
+			event.teams << t unless event.teams.include?(t)
+		end
+	end
+
+	def searchMatches(matches, search)
+  	if search != nil && search != ""
+			found = [] 
+    	teams = Team.all.where('lower(name) LIKE ? OR number = ?', "%#{search}%".downcase, "#{search}".to_i) 
+    	teams.each do |t| 
+      	matches.each {|m| found << m if !found.include?(m) && hasTeam(m, t)} 
+    	end 
+    	found
+  	else 
+	    matches
+	  end
+  end 
+
+
+	def sortMatches(matches)
+		matches.sort_by {|m| m.number[0]=~ /\A\d+\z/ ? ['A', Integer(m.number)] : [m.number[0], Integer(m.number[1..-1])] }
+	end
+
+
+	def alliance(match, team)
+		if match.red1_id == team.id || match.red2_id == team.id
+			-1
+		elsif match.blue1_id == team.id || match.blue2_id == team.id
+			1
+		else
+			0
+		end
+	end
+
 	def winningAlliance(match)
 		if match.red_score > match.blue_score
 			-1
@@ -10,28 +53,12 @@ module MatchesHelper
 		end
 	end
 
-	def cleanEvent(event)
-		event.teams.each do |t|
-			event.teams.delete(t) if event.matches.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{t.id}", "#{t.id}", "#{t.id}", "#{t.id}").size == 0
-		end
+	def hasTeam(match, team)
+		team == match.red1 || team == match.red2 || team == match.blue1 || team == match.blue2
 	end
 
-	def updateEvent(match)
-		event = match.event
-		event.teams << match.blue1 if event.teams.where(id:match.blue1_id).size == 0
-		event.teams << match.blue2 if event.teams.where(id:match.blue2_id).size == 0
-		event.teams << match.red1 if event.teams.where(id:match.red1_id).size == 0
-		event.teams << match.red2 if event.teams.where(id:match.red2_id).size == 0
-	end
-
-	def alliance(match, team)
-		if match.red1_id == team.id || match.red2_id == team.id
-			-1
-		elsif match.blue1_id == team.id || match.blue2_id == team.id
-			1
-		else
-			0
-		end
+	def getTeams(match)
+		[match.red1, match.red2, match.blue1, match.blue2]
 	end
 
 	def partner(match, team)
@@ -52,14 +79,6 @@ module MatchesHelper
 
 	def teamWon?(match, team)
 		alliance(match, team)!=0 && alliance(match,team) == winningAlliance(match)
-	end
-
-	def winningScore(match)
-		if match.red_score > match.blue_score
-			match.red_score
-		else
-			match.blue_score
-		end
 	end
 
 	def teamScore(match, team)

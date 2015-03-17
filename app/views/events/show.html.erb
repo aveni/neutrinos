@@ -3,6 +3,7 @@
   <h3><%= show_date(@event) %> <%= show_level(@event) %></h3>
 </div>
 
+<% ematches = @event.matches %>
 
 <div class="row text-right">
   <form class="navbar-form" role="search">
@@ -13,18 +14,11 @@
   </form>
 </div>
 
-<% matches = [] %>
-  <% if params[:search] %>
-    <% teams = Team.all.where('lower(name) LIKE ? OR number = ?', "%#{params[:search]}%".downcase, "#{params[:search]}".to_i) %>
-
-    <% teams.each do |t| %>
-      <% tmatches = getEventMatches(t, @event) %>
-      <% tmatches.each {|m| matches << m if !matches.include?(m)} %>
-    <% end %>
-  <% else %>
-    <% matches = @event.matches %>
-  <% end %>
-
+<% matches = sortMatches(searchMatches(ematches, params[:search])) %>
+<br>
+<div class="text-right">
+    <%= link_to 'New Match', new_event_match_path(@event), class:'btn btn-primary' if can? :modify, Match%> <br><br>
+</div>
 
 <h2>Matches</h2>
 <table class='table table-striped table-hover'>
@@ -40,14 +34,11 @@
   </tr>
   </thead>
   <tbody>
-    <%= render matches.sort_by {|m| m.number[0]=~ /\A\d+\z/ ? ['A', Integer(m.number)] : [m.number[0], Integer(m.number[1..-1])] } %>
+    <%= render matches %>
   </tbody>
 </table>
-<div class="text-right">
-    <%= link_to 'New Match', new_event_match_path(@event), class:'btn btn-primary' if can? :modify, Match%> <br><br>
-</div>
 
-
+<br>
 <h2>Competing Teams</h2>
 <table class='table table-striped table-hover'>
   <thead>
@@ -56,6 +47,7 @@
     <th><%= link_to "Team Name", event_path(@event,filter:"name") %></th>
     <th><%= link_to "Event High Score", event_path(@event,filter:"ehigh") %></th>
     <th><%= link_to "Event Avg Score", event_path(@event,filter:"eavg") %></th>
+    <th><%= link_to "Event St Dev", event_path(@event,filter:"stdev") %></th>
     <th><%= link_to "Event Win %", event_path(@event,filter:"eperc") %></th>
     <th><%= link_to "Event Avg Contribution", event_path(@event,filter:"econt") %></th> 
   </tr>   
@@ -64,13 +56,15 @@
   <% if params[:filter] == "name" %>
     <% teams = @event.teams.order(:name) %>
   <% elsif params[:filter] == "ehigh" %>
-    <% teams = @event.teams.sort_by {|t| [-eventHighScore(t, @event), t.name]} %>
+    <% teams = @event.teams.sort_by {|t| [-highScore(ematches, t), t.name]} %>
   <% elsif params[:filter] == "eavg" %>
-    <% teams = @event.teams.sort_by {|t| [-eventAvgScore(t, @event), t.name]} %>
+    <% teams = @event.teams.sort_by {|t| [-avgScore(ematches, t), t.name]} %>
+  <% elsif params[:filter] == "stdev" %>
+    <% teams = @event.teams.sort_by {|t| [stDev(ematches, t), t.name]} %>
   <% elsif params[:filter] == "eperc" %>
-    <% teams = @event.teams.sort_by {|t| [-eventWinPerc(t, @event), t.name]} %>
+    <% teams = @event.teams.sort_by {|t| [-winPerc(ematches, t), t.name]} %>
   <% elsif params[:filter] == "econt" %>
-    <% teams = @event.teams.sort_by {|t| [-eventAvgCont(t, @event), t.name]} %>
+    <% teams = @event.teams.sort_by {|t| [-avgCont(ematches, t), t.name]} %>
   <% else %>
     <% teams = @event.teams.order(:number) %>
   <% end %>
@@ -80,10 +74,11 @@
     <tr>
       <td><%= t.number %></td>
       <td> <a href="<%= team_path(t) %>" style=" text-decoration: none;"> <%= t.name %></a></td>
-      <td><%= eventHighScore(t, @event) %></td>
-      <td><%= eventAvgScore(t, @event) %></td>
-      <td><%= eventWinPerc(t, @event) %></td>
-      <td><%= eventAvgCont(t, @event) %></td>
+      <td><%= highScore(ematches, t) %></td>
+      <td><%= avgScore(ematches, t) %></td>
+      <td><%= stDev(ematches, t) %></td>
+      <td><%= winPerc(ematches, t) %></td>
+      <td><%= avgCont(ematches, t) %></td>
     </tr>
     <% end %>
   </tbody>
