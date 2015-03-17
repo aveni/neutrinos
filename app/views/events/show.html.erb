@@ -3,22 +3,12 @@
   <h3><%= show_date(@event) %> <%= show_level(@event) %></h3>
 </div>
 
-<div class="row text-right">
-  <form class="navbar-form" role="search">
-    <div class="form-group">
-      <input type="text" class="form-control" placeholder="Team Number or Name" name="search">
-    </div>
-    <button type="submit" class="btn btn-info">Search Matches</button>
-  </form>
-</div>
 
-<br>
 <div class="text-right">
     <%= link_to 'New Match', new_event_match_path(@event), class:'btn btn-primary' if can? :modify, Match%> <br><br>
 </div>
-
 <h2>Matches</h2>
-<table class='table table-striped table-hover'>
+<table id="matches_table" class = "display">
   <thead>
   <tr>
     <th>Match #</th>
@@ -31,55 +21,64 @@
   </tr>
   </thead>
   <tbody>
-    <%= render sortMatches(searchMatches(@event.matches, params[:search])) %>
+    <%= render sortMatches(@event.matches) %>
   </tbody>
 </table>
 
-<br>
+<script>
+$(document).ready(
+  function() {
+    $('#matches_table').DataTable({
+        "ordering": false,
+        "paging": false,
+        "info" : false
+    })
+  }
+  )
+</script>
+
+
+<br><br>
 <h2>Competing Teams</h2>
-<table class='table table-striped table-hover'>
+<table id="teams_table" class="display">
   <thead>
-  <tr>
-    <th><%= link_to "Team #", @event %></th>
-    <th><%= link_to "Team Name", event_path(@event,filter:"name") %></th>
-    <th><%= link_to "Event High Score", event_path(@event,filter:"ehigh") %></th>
-    <th><%= link_to "Event Avg Score", event_path(@event,filter:"eavg") %></th>
-    <th><%= link_to "Event St Dev", event_path(@event,filter:"stdev") %></th>
-    <th><%= link_to "Event Win %", event_path(@event,filter:"eperc") %></th>
-    <th><%= link_to "Event Avg Contribution", event_path(@event,filter:"econt") %></th> 
-  </tr>   
-  </thead>
-
-  <% if params[:filter] == "name" %>
-    <% teams = @event.teams.order(:name) %>
-  <% elsif params[:filter] == "ehigh" %>
-    <% teams = @event.teams.sort_by {|t| [-highScore(t, @event), t.name]} %>
-  <% elsif params[:filter] == "eavg" %>
-    <% teams = @event.teams.sort_by {|t| [-avgScore(t, @event), t.name]} %>
-  <% elsif params[:filter] == "stdev" %>
-    <% teams = @event.teams.sort_by {|t| [stDev(t, @event), t.name]} %>
-  <% elsif params[:filter] == "eperc" %>
-    <% teams = @event.teams.sort_by {|t| [-winPerc(t, @event), t.name]} %>
-  <% elsif params[:filter] == "econt" %>
-    <% teams = @event.teams.sort_by {|t| [-avgCont(t, @event), t.name]} %>
-  <% else %>
-    <% teams = @event.teams.order(:number) %>
-  <% end %>
-
-  <tbody>
-    <% teams.each do |t| %>
     <tr>
-      <td><%= t.number %></td>
-      <td> <a href="<%= team_path(t) %>" style=" text-decoration: none;"> <%= t.name %></a></td>
-      <td><%= highScore(t, @event) %></td>
-      <td><%= avgScore(t, @event) %></td>
-      <td><%= stDev(t, @event) %></td>
-      <td><%= winPerc(t, @event) %></td>
-      <td><%= avgCont(t, @event) %></td>
+      <th>Team #</th>
+      <th>Team Name</th>
+      <th>Event High Score</th>
+      <th>Event Avg Score</th>
+      <th>Event St Dev</th>
+      <th>Event Win %</th>
+      <th>Event Avg Contribution</th>
     </tr>
+  </thead>
+  <tbody>
+    <% @event.teams.each do |t| %>
+      <tr>
+        <td><%= t.number %></td>
+        <td> <a href="<%= team_path(t) %>" style=" text-decoration: none;"> <%= t.name %></a></td>
+        <td><%= highScore(t, @event) %></td>
+        <td><%= avgScore(t, @event) %></td>
+        <td><%= stDev(t, @event) %></td>
+        <td><%= winPerc(t, @event) %></td>
+        <td><%= avgCont(t, @event) %></td>
+      </tr>
     <% end %>
   </tbody>
 </table>
+
+<script>
+$(document).ready(
+  function() {
+    $('#teams_table').DataTable({
+        "order": [[ 0, "asc" ]],
+        "paging": false,
+        "info" : false
+    })
+  }
+  )
+</script>
+
 
 <br>
 <br>
