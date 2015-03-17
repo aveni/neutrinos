@@ -53,30 +53,29 @@
   <% if params[:filter] == "name" %>
     <% teams = @event.teams.order(:name) %>
   <% elsif params[:filter] == "ehigh" %>
-    <% teams = @event.teams.sort_by {|t| [-highScore(getEventMatches(t, @event), t), t.name]} %>
+    <% teams = @event.teams.sort_by {|t| [-highScore(t, @event), t.name]} %>
   <% elsif params[:filter] == "eavg" %>
-    <% teams = @event.teams.sort_by {|t| [-avgScore(getEventMatches(t, @event), t), t.name]} %>
+    <% teams = @event.teams.sort_by {|t| [-avgScore(t, @event), t.name]} %>
   <% elsif params[:filter] == "stdev" %>
-    <% teams = @event.teams.sort_by {|t| [stDev(getEventMatches(t, @event), t), t.name]} %>
+    <% teams = @event.teams.sort_by {|t| [stDev(t, @event), t.name]} %>
   <% elsif params[:filter] == "eperc" %>
-    <% teams = @event.teams.sort_by {|t| [-winPerc(getEventMatches(t, @event), t), t.name]} %>
+    <% teams = @event.teams.sort_by {|t| [-winPerc(t, @event), t.name]} %>
   <% elsif params[:filter] == "econt" %>
-    <% teams = @event.teams.sort_by {|t| [-avgCont(getEventMatches(t, @event), t), t.name]} %>
+    <% teams = @event.teams.sort_by {|t| [-avgCont(t, @event), t.name]} %>
   <% else %>
     <% teams = @event.teams.order(:number) %>
   <% end %>
 
   <tbody>
     <% teams.each do |t| %>
-    <% tmatches = getEventMatches(t, @event) %>
     <tr>
       <td><%= t.number %></td>
       <td> <a href="<%= team_path(t) %>" style=" text-decoration: none;"> <%= t.name %></a></td>
-      <td><%= highScore(tmatches, t) %></td>
-      <td><%= avgScore(tmatches, t) %></td>
-      <td><%= stDev(tmatches, t) %></td>
-      <td><%= winPerc(tmatches, t) %></td>
-      <td><%= avgCont(tmatches, t) %></td>
+      <td><%= highScore(t, @event) %></td>
+      <td><%= avgScore(t, @event) %></td>
+      <td><%= stDev(t, @event) %></td>
+      <td><%= winPerc(t, @event) %></td>
+      <td><%= avgCont(t, @event) %></td>
     </tr>
     <% end %>
   </tbody>
