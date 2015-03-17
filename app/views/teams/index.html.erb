@@ -2,13 +2,18 @@
   <h1>Listing Teams</h1>
 </div>
 
+<div class="text-right">
+  <%= link_to 'New Team', new_team_path, class:'btn btn-primary' if can? :modify, Team %>
+</div>
+<br>
 <table class='table table-striped table-hover'>
   <thead>
   <tr>
     <th><%= link_to "Team #", teams_path %></th>
     <th><%= link_to "Team Name", teams_path(filter:"name") %></th>    
     <th><%= link_to "High Score", teams_path(filter:"high") %></th>    
-    <th><%= link_to "Avg Score", teams_path(filter:"avg") %></th>    
+    <th><%= link_to "Avg Score", teams_path(filter:"avg") %></th>  
+    <th><%= link_to "Standard Deviation", teams_path(filter:"stdev") %></th>      
     <th><%= link_to "Win %", teams_path(filter:"perc") %></th>    
     <th><%= link_to "Avg Contribution", teams_path(filter:"cont") %></th> 
     </tr>   
@@ -18,8 +23,3 @@
     <%= render @teams %>
   </tbody>
 </table>
-
-<br>
-<div class="text-right">
-  <%= link_to 'New Team', new_team_path, class:'btn btn-primary' if can? :modify, Team %>
-</div>

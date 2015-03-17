@@ -2,6 +2,10 @@
   <h1>Listing Events</h1>
 </div>
 
+<div class="text-right">
+	<%= link_to 'New Event', new_event_path, class:'btn btn-primary text-right' if can? :modify, Event%>
+</div>
+<br>
 <% @events.sort_by{|e| [-e.year, -e.month, -e.day] }.each_slice(3) do |events| %>
 	<div class="row">
 		<% events.each do |e| %>
@@ -12,6 +16,3 @@
 	</div>
 <% end %>
 <br>
-<div class="text-right">
-	<%= link_to 'New Event', new_event_path, class:'btn btn-primary text-right' if can? :modify, Event%>
-</div>

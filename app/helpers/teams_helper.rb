@@ -1,25 +1,14 @@
 module TeamsHelper
-	def getMatches(team)
-		matches = []
-		team.events.each do |e|
-			e.matches.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{team.id}", "#{team.id}", "#{team.id}", "#{team.id}").each do |m|
-				matches << m
-			end
-		end
-		matches
-	end
 
 	def getEventMatches(team, event)
-		matches = []
-		event.matches.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{team.id}", "#{team.id}", "#{team.id}", "#{team.id}").each do |m|
-			matches << m
-		end
-		matches
+		event.matches.select{|m| hasTeam(m, team)}
 	end
 
-	def eventHighScore(team, event)
+
+	def highScore(matches, team)
 		high = 0
-		getEventMatches(team, event).each do |m|
+		tmatches = matches.select{|m| hasTeam(m, team)}
+		tmatches.each do |m|
 			if teamScore(m, team) > high
 				high = teamScore(m, team)
 			end
@@ -27,84 +16,59 @@ module TeamsHelper
 		high
 	end
 
-	def highScore(team)
-		high = 0
-		getMatches(team).each do |m|
-			if teamScore(m, team) > high
-				high = teamScore(m, team)
-			end
-		end
-		high
-	end
-
-	def eventAvgCont(team, event)
+	def avgCont(matches, team)
 		points=0.0
-		if (getEventMatches(team, event).size > 0)
-			getEventMatches(team, event).each do |m|
-				points += teamScore(m, team) - 0.5*eventAvgScore(partner(m, team), event)
+		tmatches = matches.select{|m| hasTeam(m, team)}
+		if tmatches.size > 0
+			tmatches.each do |m|
+				points += teamScore(m, team) - 0.5*avgScore(m.event.matches, partner(m, team))
 			end
-			(points/getEventMatches(team, event).size).round(1)
+			(points/tmatches.size).round(1)
 		else
 			0
 		end
 	end
 
-	def avgCont(team)
-		points=0.0
-		if (getMatches(team).size > 0)
-			getMatches(team).each do |m|
-				points += teamScore(m, team) - 0.5*avgScore(partner(m, team))
-			end
-			(points/getMatches(team).size).round(1)
-		else
-			0
-		end
-	end
-
-	def eventWinPerc(team, event)
+	def winPerc(matches, team)
 		wins = 0.0
-		if (getEventMatches(team, event).size > 0)
-			getEventMatches(team, event).each do |m|
+		tmatches = matches.select{|m| hasTeam(m, team)}
+		if tmatches.size > 0
+			tmatches.each do |m|
 				wins += 1 if teamWon?(m, team)
 			end
-			(100*wins/getEventMatches(team, event).size).round(1)
+			(100*wins/tmatches.size).round(1)
 		else
 			0
 		end
 	end
 
-	def winPerc(team)
-		wins = 0.0
-		if (getMatches(team).size > 0)
-			getMatches(team).each do |m|
-				wins += 1 if teamWon?(m, team)
-			end
-			(100*wins/getMatches(team).size).round(1)
-		else
-			0
-		end
-	end
-
-
-	def eventAvgScore(team, event)
+	def avgScore(matches, team)
 		points = 0.0
-		if (getEventMatches(team, event).size > 0)
-			getEventMatches(team, event).each do |m|
+		tmatches = matches.select{|m| hasTeam(m, team)}
+		if tmatches.size > 0
+			tmatches.each do |m|
 				points += teamScore(m, team)
 			end
-			(points/getEventMatches(team, event).size).round(1)
+			(points/tmatches.size).round(1)
 		else
 			0
 		end
 	end
 
-	def avgScore(team)
-		points = 0.0
-		if (getMatches(team).size > 0)
-			getMatches(team).each do |m|
-				points += teamScore(m, team)
+	def stDev(matches, team)
+		scores=[]
+		tmatches = matches.select{|m| hasTeam(m, team)}
+		if tmatches.size > 0
+			tmatches.each do |m|
+				scores << teamScore(m, team)
 			end
-			(points/getMatches(team).size).round(1)
+			avg = 0.0
+			scores.each {|s| avg += s} 
+			avg /= scores.size
+			sum = 0.0
+			scores.each {|s| sum += (s-avg)**2}
+			sum /= scores.size
+			(sum**0.5).round(1)
 		else
 			0
 		end

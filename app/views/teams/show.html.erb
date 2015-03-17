@@ -1,12 +1,15 @@
 <div class="page-header">
 	<h1><%= @team.show_team %></h1>
 </div>
+<% allMatches = Match.all %>
 
 <h2>Season Data</h2>
-<h4>High Score: <%= highScore(@team) %></h4>
-<h4>Average Score: <%= avgScore(@team) %></h4>
-<h4>Win Percentage: <%= winPerc(@team) %>%</h4>
-<h4>Average Contribution: <%= avgCont(@team) %></h4>
+<h4>High Score: <%= highScore(allMatches, @team) %></h4>
+<h4>Average Score: <%= avgScore(allMatches, @team) %></h4>
+<h4>Standard Deviation: <%= stDev(allMatches, @team) %></h4>
+<h4>Win Percentage: <%= winPerc(allMatches, @team) %>%</h4>
+<h4>Average Contribution: <%= avgCont(allMatches, @team) %></h4>
+
 
 
 <br>
@@ -22,10 +25,10 @@
 <h2>Events for <%= @team.name %></h2><br>
 
 <% @team.events.each do |e| %>
-
+  <% ematches = e.matches %>
   <h4><%= link_to e.name, e %></h4>
-  <h5 class = "text-right">High Score: <%= eventHighScore(@team, e) %> | Avg Score: <%= eventAvgScore(@team, e) %>
-   | Win %: <%= eventWinPerc(@team, e) %> | Avg Contribution: <%= eventAvgCont(@team, e) %></h5>
+  <h5 class = "text-right">High Score: <%= highScore(ematches, @team) %> | Avg Score: <%= avgScore(ematches, @team) %>
+   | St. Dev: <%= stDev(ematches, @team) %> | Win %: <%= winPerc(ematches, @team) %> | Avg Contribution: <%= avgCont(ematches, @team) %></h5>
 
   <table class='table table-striped table-hover'>
     <thead>
@@ -40,21 +43,10 @@
     </tr>
     </thead>
 
-    <% matches = [] %>
-
-    <% if params[:search] %>
-      <% teams = Team.all.where('lower(name) LIKE ? OR number = ?', "%#{params[:search]}%".downcase, "#{params[:search]}".to_i) %> 
-      <% ematches = getEventMatches(@team, e) %>
-      <% ematches.each do |m| %>
-        <% matches << m if !matches.include?(m) && 
-        (teams.include?(m.blue1) || teams.include?(m.blue2) || teams.include?(m.red1) || teams.include?(m.red2)) %>
-      <% end %>
-    <% else %>
-      <% matches = getEventMatches(@team, e) %>
-    <% end %>
+    <% matches = sortMatches(searchMatches(getEventMatches(@team, e), params[:search])) %>
 
     <tbody>
-      <%= render matches.sort_by {|m| m.number[0]=~ /\A\d+\z/ ? ['A', Integer(m.number)] : [m.number[0], Integer(m.number[1..-1])] } %>
+      <%= render matches %>
     </tbody>
   </table>
   <br>
