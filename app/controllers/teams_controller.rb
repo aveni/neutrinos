@@ -8,15 +8,15 @@ class TeamsController < ApplicationController
 		if params[:filter] == "name"
 			@teams = Team.all.order(:name)
 		elsif params[:filter] == "high"
-			@teams = Team.all.sort_by {|t| [-highScore(Match.all, t), t.name]}
+			@teams = Team.all.sort_by {|t| [-highScore(getMatches(t), t), t.name]}
 		elsif params[:filter] == "avg"
-			@teams = Team.all.sort_by {|t| [-avgScore(Match.all, t), t.name]}
+			@teams = Team.all.sort_by {|t| [-avgScore(getMatches(t), t), t.name]}
 		elsif params[:filter] == "stdev"
-			@teams = Team.all.sort_by {|t| [stDev(Match.all, t), t.name]}
+			@teams = Team.all.sort_by {|t| [stDev(getMatches(t), t), t.name]}
 		elsif params[:filter] == "perc"
-			@teams = Team.all.sort_by {|t| [-winPerc(Match.all, t), t.name]}
+			@teams = Team.all.sort_by {|t| [-winPerc(getMatches(t), t), t.name]}
 		elsif params[:filter] == "cont"
-			@teams = Team.all.sort_by {|t| [-avgCont(Match.all, t), t.name]}
+			@teams = Team.all.sort_by {|t| [-avgCont(getMatches(t), t), t.name]}
 		else
 			@teams = Team.all.order(:number)
 		end
