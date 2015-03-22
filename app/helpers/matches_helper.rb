@@ -21,12 +21,13 @@ module MatchesHelper
 		end
 	end
 
-	def updateEvent(match)
+	def addToEvent(match)
 		event = match.event
 		teams = getTeams(match)
 		teams.each do |t|
 			event.teams << t unless event.teams.include?(t)
 		end
+		cleanEvent(event)
 	end
 
 	def searchMatches(matches, search)

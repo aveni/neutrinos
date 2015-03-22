@@ -3,11 +3,11 @@
 </div>
 
 <h2>Season Data</h2>
-<h4>High Score: <%= highScore(@team) %></h4>
-<h4>Average Score: <%= avgScore(@team) %></h4>
-<h4>Standard Deviation: <%= stDev(@team) %></h4>
-<h4>Win Percentage: <%= winPerc(@team) %>%</h4>
-<h4>Average Contribution: <%= avgCont(@team) %></h4>
+<h4>High Score: <%= @team.high_score %></h4>
+<h4>Average Score: <%= @team.avg_score %></h4>
+<h4>Standard Deviation: <%= @team.st_dev %></h4>
+<h4>Win Percentage: <%= @team.win_perc %>%</h4>
+<h4>Average Contribution: <%= @team.avg_cont %></h4>
 
 
 <br>
@@ -30,7 +30,7 @@
     </thead>
 
     <tbody>
-      <%= render sortMatches(getEventMatches(@team, e)) %>
+      <%= render getEventMatches(@team, e) %>
     </tbody>
   </table>
   <h5 class = "text-right">High Score: <%= highScore(@team, e) %> | Avg Score: <%= avgScore(@team, e) %>

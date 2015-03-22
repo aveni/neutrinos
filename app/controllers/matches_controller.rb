@@ -21,7 +21,8 @@ class MatchesController < ApplicationController
 	def create
 		@match = Match.new(match_params)
 		if @match.save
-			updateEvent(@match)
+			addToEvent(@match)
+			getTeams(@match).each {|t| updateTeam(t)}
 			redirect_to @event, notice:'Match successfully created'
 		else
 			render 'new'
@@ -31,7 +32,8 @@ class MatchesController < ApplicationController
 	def update
 		@match = Match.find(params[:id])
 		if @match.update(match_params)
-			updateEvent(@match)
+			addToEvent(@match)
+			getTeams(@match).each {|t| updateTeam(t)}
 			redirect_to @event, notice:'Match successfully updated'
 		else
 			render 'edit'
@@ -40,7 +42,9 @@ class MatchesController < ApplicationController
 
 	def destroy
 		@match = Match.find(params[:id])
+		teams = getTeams(@match)
 		@match.destroy unless @match.nil?
+		teams.each {|t| updateTeam(t)}
 		cleanEvent(@event)
 		redirect_to @event
 	end	

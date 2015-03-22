@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 20150315034153) do
   end
 
   create_table "matches", force: :cascade do |t|
-    t.string   "number"
+    t.integer  "number"
     t.integer  "blue1_id"
     t.integer  "blue2_id"
     t.integer  "red1_id"
@@ -44,6 +44,11 @@ ActiveRecord::Schema.define(version: 20150315034153) do
   create_table "teams", force: :cascade do |t|
     t.integer  "number"
     t.string   "name"
+    t.integer  "high_score"
+    t.float    "avg_score"
+    t.float    "win_perc"
+    t.float    "avg_cont"
+    t.float    "st_dev"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
