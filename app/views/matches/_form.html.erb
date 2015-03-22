@@ -6,7 +6,7 @@
 
 		<% f.error_notification %>
 		<%= f.hidden_field :event_id %>
-		<%= f.input :number, label: 'Match Number', hint:"For division matches (e.g. Apple and Banana), use form A5, B6, etc." %>
+		<%= f.input :number, label: 'Match Number' %>
 		<%= f.input :red1_id, label: 'Red 1', collection: Team.all.order(:number), label_method: :show_team %>
 		<%= f.input :red2_id, label: 'Red 2', collection: Team.all.order(:number), label_method: :show_team %>
 		<%= f.input :blue1_id, label: 'Blue 1', collection: Team.all.order(:number), label_method: :show_team %>

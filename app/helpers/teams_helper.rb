@@ -1,5 +1,14 @@
 module TeamsHelper
 
+	def updateTeam(team)
+		team.high_score = highScore(team)
+		team.avg_score = avgScore(team)
+		team.avg_cont = avgCont(team)
+		team.win_perc = winPerc(team)
+		team.st_dev = stDev(team)
+		team.save
+	end
+
 
 	def highScore(team, event=nil)
 		high = 0

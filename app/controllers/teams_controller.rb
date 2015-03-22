@@ -22,6 +22,7 @@ class TeamsController < ApplicationController
 
 	def create
 		@team = Team.new(team_params)
+		updateTeam(@team)
 		if @team.save
 			redirect_to @team, notice:'Team successfully created'
 		else
@@ -41,13 +42,15 @@ class TeamsController < ApplicationController
 	def destroy
 		@team = Team.find(params[:id])
 		@team.destroy unless @team.nil?
+		Team.all.each {|t| updateTeam(t)}
+		Event.all.each {|e| cleanEvent(e)}
 		redirect_to teams_path
 	end	
 
 	private
 
 		def team_params
-			params[:team].permit(:number, :name)
+			params[:team].permit(:number, :name, :high_score, :avg_score, :avg_cont, :win_perc, :st_dev)
 		end
 
 

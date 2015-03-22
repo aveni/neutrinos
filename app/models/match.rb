@@ -3,7 +3,7 @@
 # Table name: matches
 #
 #  id         :integer          not null, primary key
-#  number     :string
+#  number     :integer
 #  blue1_id   :integer
 #  blue2_id   :integer
 #  red1_id    :integer
@@ -33,7 +33,6 @@ class Match < ActiveRecord::Base
 	validates :event_id, presence:true
 	validate :validTeams
 	validate :uniqueEventNum
-	validate :validNumber
 
 	def validTeams
 		if blue1_id == blue2_id
@@ -60,14 +59,6 @@ class Match < ActiveRecord::Base
 	def uniqueEventNum
 		if Event.find(event_id).matches.where(number:number).size > 0
 			errors.add(:number, "Number has already been taken") if Event.find(event_id).matches.where(number:number).first.id != id
-		end
-	end
-
-	def validNumber
-		if number[0]=~ /\A\d+\z/
-			errors.add(:number, "Invalid format") unless number =~ /\A\d+\z/
-		else
-			errors.add(:number, "Invalid format") unless number[0] =~ /[A-Z]/ && number[1..-1] =~ /\A\d+\z/
 		end
 	end
 

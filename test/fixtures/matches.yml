@@ -3,7 +3,7 @@
 # Table name: matches
 #
 #  id         :integer          not null, primary key
-#  number     :string
+#  number     :integer
 #  blue1_id   :integer
 #  blue2_id   :integer
 #  red1_id    :integer
