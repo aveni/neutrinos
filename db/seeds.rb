@@ -55,3 +55,10 @@ matches.each do |m|
 end
 
 Team.all.each {|t| updateTeam(t)}
+
+admin = User.find_by_email("khatri.florida@gmail.com")
+unless admin
+	admin = User.new(name: "Neutrinos", email: "khatri.florida@gmail.com", password: "thuglife", password_confirmation: "thuglife")
+	admin.roles = ["admin"]
+	admin.save
+end
