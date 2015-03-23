@@ -21,7 +21,7 @@
   </tr>
   </thead>
   <tbody>
-    <%= render @event.matches %>
+    <%= render @event.matches.sort_by{|m| m.number} %>
   </tbody>
 </table>
 
@@ -32,7 +32,7 @@ $(document).ready(
         "ordering": false,
         "paging": false,
         "info" : false,
-        "scrollY":"250px",
+        "scrollY":"450px",
         "scrollCollapse": true
     })
   }
@@ -76,7 +76,7 @@ $(document).ready(
         "order": [[ 0, "asc" ]],
         "paging": false,
         "info" : false,
-        "scrollY":"250px",
+        "scrollY":"450px",
         "scrollCollapse": true
     })
   }

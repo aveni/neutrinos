@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Neutrinos Scouting</title>
+  <title>Subatomic Scouting</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -10,21 +10,31 @@
 <div id="wrap">
 
 <nav class="navbar navbar-default" role="navigation">
-			<div class="container">
-				<ul class="nav navbar-nav navbar-right">
-					<% if user_signed_in? %>
-						<p class="nav navbar-text"> Signed in as <%= current_user.name %></p>
-					<% end %>
-					<li><%= link_to 'Teams', teams_path %></li>
-					<li><%= link_to 'Events', events_path %></li>
-					<% if user_signed_in? %>
-						<li><%= link_to 'Sign out', destroy_user_session_path, :method=>:delete %></li>
-					<% else %>
-						<li><%= link_to 'Sign in', new_user_session_path %></li>						
-					<% end %>
-				</ul>
-			</div>
-		</nav>
+<div class="container-fluid">
+
+	<div class="navbar-header">
+  	<a class="navbar-brand" href= <%= root_url %>>
+  		Subatomic Scouting
+    </a>
+  </div>
+
+	<div class="collapse navbar-collapse" id="navbar">
+		<ul class="nav navbar-nav navbar-right">
+			<% if user_signed_in? %>
+				<p class="nav navbar-text"> Signed in as <%= current_user.name %></p>
+			<% end %>
+			<li><%= link_to 'Teams', teams_path %></li>
+			<li><%= link_to 'Events', events_path %></li>
+			<% if user_signed_in? %>
+				<li><%= link_to 'Sign out', destroy_user_session_path, :method=>:delete %></li>
+			<% else %>
+				<li><%= link_to 'Sign in', new_user_session_path %></li>						
+			<% end %>
+		</ul>
+	</div>
+
+</div> <!-- container-fluid -->
+</nav>
 
 
 <div class="container">
