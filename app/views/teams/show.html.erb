@@ -30,7 +30,7 @@
     </thead>
 
     <tbody>
-      <%= render getEventMatches(@team, e) %>
+      <%= render getEventMatches(@team, e).sort_by{|m| m.number} %>
     </tbody>
   </table>
   <h5 class = "text-right">High Score: <%= highScore(@team, e) %> | Avg Score: <%= avgScore(@team, e) %>
