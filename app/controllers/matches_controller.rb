@@ -7,7 +7,7 @@ class MatchesController < ApplicationController
 
 
 	def new
-		@match = Match.new(event_id: @event.id, description:"")
+		@match = Match.new(event_id: @event.id)
 	end
 
 	def show
