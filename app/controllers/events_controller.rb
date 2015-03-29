@@ -39,6 +39,7 @@ class EventsController < ApplicationController
 	def destroy
 		@event = Event.find(params[:id])
 		@event.destroy unless @event.nil?
+		Team.all.each {|t| updateTeam(t)}
 		redirect_to events_path
 	end	
 

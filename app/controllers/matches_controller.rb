@@ -31,9 +31,11 @@ class MatchesController < ApplicationController
 
 	def update
 		@match = Match.find(params[:id])
+		oldTeams = getTeams(@match)
 		if @match.update(match_params)
 			addToEvent(@match)
 			getTeams(@match).each {|t| updateTeam(t)}
+			oldTeams.each {|t| updateTeam(t)}
 			redirect_to @event, notice:'Match successfully updated'
 		else
 			render 'edit'
