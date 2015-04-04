@@ -14,7 +14,8 @@
 <br>
 <h2>Events for <%= @team.name %></h2><br>
 
-<% @team.events.each do |e| %>
+<% @team.participations.each do |p| %>
+  <% e = p.event %>
   <h4><%= link_to e.name, e %></h4>
   <table class='display'>
     <thead>
@@ -33,8 +34,8 @@
       <%= render getEventMatches(@team, e).sort_by{|m| m.number} %>
     </tbody>
   </table>
-  <h5 class = "text-right">High Score: <%= highScore(@team, e) %> | Avg Score: <%= avgScore(@team, e) %>
-   | St. Dev: <%= stDev(@team, e) %> | Win %: <%= winPerc(@team, e) %> | Avg Contribution: <%= avgCont(@team, e) %></h5>
+  <h5 class = "text-right">High Score: <%= p.high_score %> | Avg Score: <%= p.avg_score %>
+   | St. Dev: <%= p.st_dev %> | Win %: <%= p.win_perc %> | Avg Contribution: <%= p.avg_cont %></h5>
   <br><br>
 <% end %>
 <br>

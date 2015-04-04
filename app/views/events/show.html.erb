@@ -21,7 +21,7 @@
   </tr>
   </thead>
   <tbody>
-    <%= render @event.matches.sort_by{|m| m.number} %>
+    <%= render @event.matches.includes(:red1, :red2, :blue1, :blue2).order(number: :asc) %>
   </tbody>
 </table>
 
@@ -55,15 +55,16 @@ $(document).ready(
     </tr>
   </thead>
   <tbody>
-    <% @event.teams.each do |t| %>
+    <% @event.participations.includes(:team).each do |p| %>
+      <% t = p.team %>
       <tr>
         <td><%= t.number %></td>
         <td> <a href="<%= team_path(t) %>" style=" text-decoration: none;"> <%= t.name %></a></td>
-        <td><%= highScore(t, @event) %></td>
-        <td><%= avgScore(t, @event) %></td>
-        <td><%= stDev(t, @event) %></td>
-        <td><%= winPerc(t, @event) %></td>
-        <td><%= avgCont(t, @event) %></td>
+        <td><%= p.high_score %></td>
+        <td><%= p.avg_score %></td>
+        <td><%= p.st_dev %></td>
+        <td><%= p.win_perc %></td>
+        <td><%= p.avg_cont %></td>
       </tr>
     <% end %>
   </tbody>

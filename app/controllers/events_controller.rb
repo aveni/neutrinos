@@ -5,7 +5,7 @@ class EventsController < ApplicationController
 	include MatchesHelper
 
 	def index
-			@events = Event.all.order(:name)
+		@events = Event.all.order(:name)
 	end
 
 	def new
@@ -41,7 +41,6 @@ class EventsController < ApplicationController
 	def destroy
 		@event = Event.find(params[:id])
 		@event.destroy unless @event.nil?
-		Team.all.each {|t| updateTeam(t)}
 		redirect_to events_path
 	end	
 

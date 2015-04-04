@@ -2,18 +2,17 @@
 #
 # Table name: matches
 #
-#  id          :integer          not null, primary key
-#  number      :integer
-#  blue1_id    :integer
-#  blue2_id    :integer
-#  red1_id     :integer
-#  red2_id     :integer
-#  red_score   :integer
-#  blue_score  :integer
-#  event_id    :integer
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  description :text
+#  id         :integer          not null, primary key
+#  number     :integer
+#  blue1_id   :integer
+#  blue2_id   :integer
+#  red1_id    :integer
+#  red2_id    :integer
+#  red_score  :integer
+#  blue_score :integer
+#  event_id   :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 class Match < ActiveRecord::Base
@@ -62,5 +61,4 @@ class Match < ActiveRecord::Base
 			errors.add(:number, "Number has already been taken") if Event.find(event_id).matches.where(number:number).first.id != id
 		end
 	end
-
 end

@@ -9,6 +9,16 @@ module TeamsHelper
 		team.save
 	end
 
+	def updateParticipation(p)
+		p.high_score = highScore(p.team, p.event)
+		p.avg_score = avgScore(p.team, p.event)
+		p.avg_cont = avgCont(p.team, p.event)
+		p.win_perc = winPerc(p.team, p.event)
+		p.st_dev = stDev(p.team, p.event)
+		p.save
+		updateTeam(p.team)
+	end
+
 
 	def highScore(team, event=nil)
 		high = 0

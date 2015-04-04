@@ -16,22 +16,13 @@
 
 class Team < ActiveRecord::Base
 
-	has_many :matches
-	has_and_belongs_to_many :events
-	after_destroy :cleanup
+	has_many :participations, dependent: :destroy
+	has_many :events, :through=>:participations
 
 	validates :number, presence:true, uniqueness:true, :numericality => {:greater_than => 0}
 	validates :name, presence:true
 
 	def show_team
 		"#{number} #{name}"
-	end
-
-	def cleanup
-		Match.all.each do|m|
-			if m.blue1_id==self.id || m.blue2_id==self.id || m.red1_id==self.id || m.red2_id==self.id
-				m.destroy
-			end
-		end
 	end
 end
