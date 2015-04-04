@@ -1,3 +1,4 @@
+<% if current_user && (current_user.is?(:neutrinos) || current_user.is?(:admin)) %>
 <tr>
 	<td><%= team.number %></td>
 	<td> <a href="<%= team_path(team) %>" style="	text-decoration: none;"> <%= team.name %></a></td>
@@ -7,3 +8,11 @@
 	<td> <%= team.win_perc %>% </td>
 	<td> <%= team.avg_cont %> </td>
 </tr>
+<% else %>
+<tr>
+	<td><%= team.number %></td>
+	<td> <a href="<%= team_path(team) %>" style="	text-decoration: none;"> <%= team.name %></a></td>
+	<td> <%= team.high_score %> </td>
+	<td> <%= team.win_perc %>% </td>
+</tr>
+<% end %>

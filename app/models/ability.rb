@@ -36,6 +36,8 @@ class Ability
     can :read, Match
     can :read, Event
 
+    can :update, Match if user.is?(:scorer)
+
     can :modify, :all if user.is?(:admin)
     can :destroy, :all if user.is?(:admin)
 

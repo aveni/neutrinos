@@ -3,12 +3,17 @@
 </div>
 
 <h2>Season Data</h2>
-<h4>High Score: <%= @team.high_score %></h4>
-<h4>Average Score: <%= @team.avg_score %></h4>
-<h4>Standard Deviation: <%= @team.st_dev %></h4>
-<h4>Win Percentage: <%= @team.win_perc %>%</h4>
-<h4>Average Contribution: <%= @team.avg_cont %></h4>
 
+<% if current_user && (current_user.is?(:neutrinos) || current_user.is?(:admin)) %>
+  <h4>High Score: <%= @team.high_score %></h4>
+  <h4>Average Score: <%= @team.avg_score %></h4>
+  <h4>Standard Deviation: <%= @team.st_dev %></h4>
+  <h4>Win Percentage: <%= @team.win_perc %>%</h4>
+  <h4>Average Contribution: <%= @team.avg_cont %></h4>
+<% else %>
+  <h4>High Score: <%= @team.high_score %></h4>
+  <h4>Win Percentage: <%= @team.win_perc %>%</h4>
+<% end %>
 
 <br>
 <br>
@@ -16,7 +21,7 @@
 
 <% @team.participations.each do |p| %>
   <% e = p.event %>
-  <h4><%= link_to e.name, e %></h4>
+  <h3><%= link_to e.name, e %></h3>
   <table class='display'>
     <thead>
     <tr>
@@ -34,10 +39,17 @@
       <%= render getEventMatches(@team, e).sort_by{|m| m.number} %>
     </tbody>
   </table>
-  <h5 class = "text-right">High Score: <%= p.high_score %> | Avg Score: <%= p.avg_score %>
-   | St. Dev: <%= p.st_dev %> | Win %: <%= p.win_perc %> | Avg Contribution: <%= p.avg_cont %></h5>
-  <br><br>
+
+  <% if current_user && (current_user.is?(:neutrinos) || current_user.is?(:admin)) %>
+    <h5 class = "text-right">High Score: <%= p.high_score %> | Avg Score: <%= p.avg_score %>
+     | St. Dev: <%= p.st_dev %> | Win %: <%= p.win_perc %> | Avg Contribution: <%= p.avg_cont %></h5>
+  <% else %>
+    <h5 class = "text-right">High Score: <%= p.high_score %> | Win %: <%= p.win_perc %></h5>
+  <% end %>
+<br>
+<br>
 <% end %>
+
 <br>
 <br>
 <div class="row text-right">
