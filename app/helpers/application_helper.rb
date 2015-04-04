@@ -12,7 +12,7 @@ module ApplicationHelper
 		Team.all.each do |t|
 			matches = getMatches(t)
 			matches.each do |m|
-				if Participation.where(team_id: t.id, event_id: m.event.id) == nil
+				if Participation.where(team_id: t.id, event_id: m.event.id).first == nil
 					p = Participation.create(team_id: t.id, event_id: m.event.id)
 					p.save
 				end
