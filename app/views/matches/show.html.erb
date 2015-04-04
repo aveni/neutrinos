@@ -19,6 +19,6 @@
 <br>
 <br>
 <div class="row text-right">
-	<%= link_to fa_icon('pencil', text:'Edit Match'), edit_event_match_path(@match.event, @match), class:'btn btn-default' if can? :modify, Match%> 
+	<%= link_to fa_icon('pencil', text:'Edit Match'), edit_event_match_path(@match.event, @match), class:'btn btn-default' if can? :update, Match%> 
 	<%= link_to fa_icon('trash-o', text:'Destroy Match'), event_match_path(@match.event, @match), method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-danger' if can? :destroy, Match%>
 </div>	

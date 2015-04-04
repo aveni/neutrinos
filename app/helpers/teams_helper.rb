@@ -19,7 +19,6 @@ module TeamsHelper
 		updateTeam(p.team)
 	end
 
-
 	def highScore(team, event=nil)
 		high = 0
 		event == nil ? matches = getMatches(team) : matches = getEventMatches(team, event)

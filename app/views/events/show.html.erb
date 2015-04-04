@@ -5,7 +5,7 @@
 
 
 <div class="text-right">
-    <%= link_to 'New Match', new_event_match_path(@event), class:'btn btn-primary' if can? :modify, Match%> <br><br>
+    <%= link_to 'New Match', new_event_match_path(@event), class:'btn btn-primary' if can? :create, Match%> <br><br>
 </div>
 <h2>Matches</h2>
 <table id="matches_table" class = "display">
@@ -32,7 +32,7 @@ $(document).ready(
         "ordering": false,
         "paging": false,
         "info" : false,
-        "scrollY":"450px",
+        "scrollY":"600px",
         "scrollCollapse": true
     })
   }
@@ -42,6 +42,8 @@ $(document).ready(
 
 <br><br>
 <h2>Competing Teams</h2>
+
+<% if current_user && current_user.is?(:neutrinos) %>
 <table id="teams_table" class="display">
   <thead>
     <tr>
@@ -69,6 +71,29 @@ $(document).ready(
     <% end %>
   </tbody>
 </table>
+<% else %>
+<table id="teams_table" class="display">
+  <thead>
+    <tr>
+      <th>Team #</th>
+      <th>Team Name</th>
+      <th>Event High Score</th>
+      <th>Event Win %</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @event.participations.includes(:team).each do |p| %>
+      <% t = p.team %>
+      <tr>
+        <td><%= t.number %></td>
+        <td> <a href="<%= team_path(t) %>" style=" text-decoration: none;"> <%= t.name %></a></td>
+        <td><%= p.high_score %></td>
+        <td><%= p.win_perc %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
 
 <script>
 $(document).ready(
@@ -77,7 +102,7 @@ $(document).ready(
         "order": [[ 0, "asc" ]],
         "paging": false,
         "info" : false,
-        "scrollY":"450px",
+        "scrollY":"600px",
         "scrollCollapse": true
     })
   }

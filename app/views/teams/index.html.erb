@@ -5,6 +5,8 @@
 <div class="text-left">
   <%= link_to 'New Team', new_team_path, class:'btn btn-primary' if can? :modify, Team %>
 </div>
+
+<% if current_user && (current_user.is?(:neutrinos) || current_user.is?(:admin)) %>
 <table id="teams_table" class='display'>
   <thead>
   <tr>
@@ -22,6 +24,23 @@
   </tbody>
 </table>
 
+<% else %>
+
+<table id="teams_table" class='display'>
+  <thead>
+  <tr>
+    <th>Team #</th>
+    <th>Team Name</th>    
+    <th>High Score</th>    
+    <th>Win %</th>    
+    </tr>   
+  </thead>
+  <tbody>
+    <%= render @teams %>
+  </tbody>
+</table>
+
+<% end %>
 
 <script>
   $(document).ready(
