@@ -22,8 +22,8 @@ class TeamsController < ApplicationController
 
 	def create
 		@team = Team.new(team_params)
-		updateTeam(@team)
 		if @team.save
+			updateTeam(@team)
 			redirect_to @team, notice:'Team successfully created'
 		else
 			render 'new'
@@ -41,9 +41,17 @@ class TeamsController < ApplicationController
 
 	def destroy
 		@team = Team.find(params[:id])
+		matches = getMatches(@team)
 		@team.destroy unless @team.nil?
-		Team.all.each {|t| updateTeam(t)}
-		Event.all.each {|e| cleanEvent(e)}
+		
+		matches.each do |m|
+			m.destroy
+		end
+		
+		Event.all.each do |e|
+			updateEvent(e)
+		end
+
 		redirect_to teams_path
 	end	
 

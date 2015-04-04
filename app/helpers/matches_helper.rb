@@ -1,23 +1,21 @@
 module MatchesHelper
 
 	def getMatches(team)
-		matches = []
-		team.events.each do |e|
-			e.matches.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{team.id}", "#{team.id}", "#{team.id}", "#{team.id}").each do |m|
-				matches << m
-			end
-		end
-		matches
+		Match.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{team.id}", "#{team.id}", "#{team.id}", "#{team.id}")
 	end
 	
 	def getEventMatches(team, event)
-		event.matches.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{team.id}", "#{team.id}", "#{team.id}", "#{team.id}")
+		Match.where('event_id = ? AND (blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?)', "#{event.id}", "#{team.id}", "#{team.id}", "#{team.id}", "#{team.id}")
 	end
 
 
-	def cleanEvent(event)
-		event.teams.each do |t|
-			event.teams.delete(t) if getEventMatches(t, event).size == 0
+	def updateEvent(event)
+		event.participations.each do |p|
+			if getEventMatches(p.team, event).size == 0
+				p.destroy
+			else
+				updateParticipation(p)
+			end
 		end
 	end
 
@@ -25,27 +23,12 @@ module MatchesHelper
 		event = match.event
 		teams = getTeams(match)
 		teams.each do |t|
-			event.teams << t unless event.teams.include?(t)
+			if !event.teams.include?(t)
+				p = Participation.create(event_id: event.id, team_id: t.id)
+				p.save
+			end
+			updateParticipation(event.participations.where(team_id: t.id).first)
 		end
-		cleanEvent(event)
-	end
-
-	def searchMatches(matches, search)
-  	if search != nil && search != ""
-			found = [] 
-    	teams = Team.all.where('lower(name) LIKE ? OR number = ?', "%#{search}%".downcase, "#{search}".to_i) 
-    	teams.each do |t| 
-      	matches.each {|m| found << m if !found.include?(m) && hasTeam(m, t)} 
-    	end 
-    	found
-  	else 
-	    matches
-	  end
-  end 
-
-
-	def sortMatches(matches)
-		matches.sort_by {|m| m.number[0]=~ /\A\d+\z/ ? ['A', Integer(m.number)] : [m.number[0], Integer(m.number[1..-1])] }
 	end
 
 
