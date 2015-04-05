@@ -1,11 +1,21 @@
 module ApplicationHelper
 
 	def blue(text)
-		content_tag(:span, text, class: "label label-info label-as-badge")
+		content_tag(:span, text, class: "label label-primary label-as-badge")
 	end
 
 	def red(text)
 		content_tag(:span, text, class: "label label-danger label-as-badge")
+	end
+
+	def show_role(user)
+    if user.is?(:admin)
+	    content_tag(:span, 'Admin', class:'label label-warning') 
+	  elsif user.is?(:scorer)
+		  content_tag(:span, 'Scorer', class:'label label-primary')
+		elsif user.is?(:neutrinos)
+		  content_tag(:span, 'Neutrinos', class:'label label-success')
+		end
 	end
 
 	def resetAllParticipations

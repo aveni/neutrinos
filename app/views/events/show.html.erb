@@ -1,12 +1,14 @@
 <div class="page-header">
 	<h1><%= @event.name %></h1>
-  <h3><%= show_date(@event) %> <%= show_level(@event) %></h3>
+  <h3><%= show_date(@event) %> &nbsp; <%= show_level(@event) %></h3>
 </div>
-
-
+<br>
+<% if can? :create, Match%>
 <div class="text-right">
-    <%= link_to 'New Match', new_event_match_path(@event), class:'btn btn-primary' if can? :create, Match%> <br><br>
+  <%= link_to 'New Match', new_event_match_path(@event), class:'btn btn-primary' %> 
+  <br>
 </div>
+<% end %>
 <h2>Matches</h2>
 <table id="matches_table" class = "display">
   <thead>
@@ -31,9 +33,9 @@ $(document).ready(
     $('#matches_table').DataTable({
         "ordering": false,
         "paging": false,
-        "info" : false,
-        "scrollY":"600px",
-        "scrollCollapse": true
+        "info" : false
+        // "scrollY":"600px",
+        // "scrollCollapse": true
     })
   }
   )
@@ -101,9 +103,9 @@ $(document).ready(
     $('#teams_table').DataTable({
         "order": [[ 0, "asc" ]],
         "paging": false,
-        "info" : false,
-        "scrollY":"600px",
-        "scrollCollapse": true
+        "info" : false
+        // "scrollY":"600px",
+        // "scrollCollapse": true
     })
   }
   )
