@@ -15,14 +15,14 @@
 	<div class="navbar-header">
   	<a class="navbar-brand" href= <%= root_url %>>
   		Subatomic Scouting
+      <% if current_user != nil %>
+       &nbsp; <%= show_role(current_user) %>
+      <% end %>
     </a>
   </div>
 
 	<div class="collapse navbar-collapse" id="navbar">
 		<ul class="nav navbar-nav navbar-right">
-			<% if user_signed_in? %>
-				<p class="nav navbar-text"> Signed in as <%= current_user.name %></p>
-			<% end %>
 			<li><%= link_to 'Teams', teams_path %></li>
 			<li><%= link_to 'Events', events_path %></li>
 			<% if user_signed_in? %>
