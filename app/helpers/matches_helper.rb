@@ -12,7 +12,9 @@ module MatchesHelper
 	def updateEvent(event)
 		event.participations.each do |p|
 			if getEventMatches(p.team, event).size == 0
+				team = p.team
 				p.destroy
+				updateTeam(team)
 			else
 				updateParticipation(p)
 			end
