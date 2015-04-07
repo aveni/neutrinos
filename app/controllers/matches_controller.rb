@@ -32,6 +32,7 @@ class MatchesController < ApplicationController
 		@match = Match.find(params[:id])
 		if @match.update(match_params)
 			addToEvent(@match)
+			updateEvent(@event)
 			redirect_to @event, notice:'Match successfully updated'
 		else
 			render 'edit'
