@@ -56,8 +56,12 @@ $(document).ready(
       <th>Event St Dev</th>
       <th>Event Win %</th>
       <th>Event Avg Contribution</th>
+      <th>Event OPR</th>
     </tr>
   </thead>
+
+  <% opr = OPR(@event) %>
+
   <tbody>
     <% @event.participations.includes(:team).each do |p| %>
       <% t = p.team %>
@@ -69,6 +73,7 @@ $(document).ready(
         <td><%= p.st_dev %></td>
         <td><%= p.win_perc %></td>
         <td><%= p.avg_cont %></td>
+        <td><%= opr[p.team.number].round(1) %></td>
       </tr>
     <% end %>
   </tbody>
