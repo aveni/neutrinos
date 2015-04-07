@@ -45,7 +45,7 @@ $(document).ready(
 <br><br>
 <h2>Competing Teams</h2>
 
-<% if current_user && current_user.is?(:neutrinos) %>
+<% if current_user && (current_user.is?(:neutrinos) || current_user.is?(:admin)) %>
 <table id="teams_table" class="display">
   <thead>
     <tr>
