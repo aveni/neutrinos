@@ -8,8 +8,8 @@
   <h4>High Score: <%= @team.high_score %></h4>
   <h4>Average Score: <%= @team.avg_score %></h4>
   <h4>Standard Deviation: <%= @team.st_dev %></h4>
-  <h4>Win Percentage: <%= @team.win_perc %>%</h4>
   <h4>Average Contribution: <%= @team.avg_cont %></h4>
+  <h4>Win Percentage: <%= @team.win_perc %>%</h4>
 <% else %>
   <h4>High Score: <%= @team.high_score %></h4>
   <h4>Win Percentage: <%= @team.win_perc %>%</h4>
@@ -43,7 +43,7 @@
 
   <% if current_user && (current_user.is?(:neutrinos) || current_user.is?(:admin)) %>
     <h5 class = "text-right">High Score: <%= p.high_score %> | Avg Score: <%= p.avg_score %>
-     | St Dev: <%= p.st_dev %> | # Matches: <%= qp[@team.number][0] %> | QP: <%= qp[@team.number][1] %> | Win %: <%= p.win_perc %>% | Avg Cont: <%= p.avg_cont %> | OPR: <%= OPR(e)[@team.number].round(1) %> </h5>
+     | St Dev: <%= p.st_dev %> | Avg Cont: <%= p.avg_cont %> | OPR: <%= OPR(e)[@team.number].round(1) %> | # Matches: <%= qp[@team.number][0] %> | QP: <%= qp[@team.number][1] %> | Win %: <%= p.win_perc %>%  </h5>
   <% else %>
     <h5 class = "text-right">High Score: <%= p.high_score %> | # Matches: <%= qp[@team.number][0] %> | QP: <%= qp[@team.number][1] %> | Win %: <%= p.win_perc %>% </h5>
   <% end %>
@@ -65,7 +65,7 @@ $(document).ready(
     $('table.display').DataTable({
         "ordering": false,
         "paging": false,
-        "info" : false
+        "info":false
     })
   }
   )
