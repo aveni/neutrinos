@@ -3,10 +3,104 @@
   <h3><%= show_date(@event) %> &nbsp; <%= show_level(@event) %></h3>
 </div>
 <br>
+
+<h2>Competing Teams</h2>
+<% qp = QP(@event) %>
+<% if current_user && (current_user.is?(:neutrinos) || current_user.is?(:admin)) %>
+<table id="teams_table1" class="display">
+  <thead>
+    <tr>
+      <th>Team #</th>
+      <th>Name</th>
+      <th>High Score</th>
+      <th>Avg Score</th>
+      <th>St Dev</th>
+      <th>Avg Cont</th>
+      <th>OPR</th>
+      <th># Matches</th>
+      <th>QP</th>
+      <th>Win %</th>
+    </tr>
+  </thead>
+
+  <% opr = OPR(@event) %>
+
+  <tbody>
+    <% @event.participations.includes(:team).each do |p| %>
+      <% t = p.team %>
+      <tr>
+        <td><%= t.number %></td>
+        <td> <a href="<%= team_path(t) %>" style=" text-decoration: none;"> <%= t.name %></a></td>
+        <td><%= p.high_score %></td>
+        <td><%= p.avg_score %></td>
+        <td><%= p.st_dev %></td>
+        <td><%= p.avg_cont %></td>
+        <td><%= opr[p.team.number].round(1) %></td>
+        <td><%= qp[p.team.number][0] %></td>
+        <td><%= qp[p.team.number][1] %></td>
+        <td><%= p.win_perc %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+<table id="teams_table2" class="display">
+  <thead>
+    <tr>
+      <th>Team #</th>
+      <th>Name</th>
+      <th>High Score</th>
+      <th># Matches</th>
+      <th>QP</th>
+      <th>Win %</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @event.participations.includes(:team).each do |p| %>
+      <% t = p.team %>
+      <tr>
+        <td><%= t.number %></td>
+        <td> <a href="<%= team_path(t) %>" style=" text-decoration: none;"> <%= t.name %></a></td>
+        <td><%= p.high_score %></td>
+        <td><%= qp[p.team.number][0] %></td>
+        <td><%= qp[p.team.number][1] %></td>
+        <td><%= p.win_perc %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% end %>
+
+<script>
+$(document).ready(
+  function() {
+    $('#teams_table1').DataTable({
+        "order": [[ 6, "desc" ]],
+        "paging": false,
+         "scrollY":"600px",
+         "scrollCollapse": true
+    })
+  }
+  )
+</script>
+
+<script>
+$(document).ready(
+  function() {
+    $('#teams_table2').DataTable({
+        "order": [[ 4, "desc" ]],
+        "paging": false,
+         "scrollY":"600px",
+         "scrollCollapse": true
+    })
+  }
+  )
+</script>
+
+<br><br><br>
 <% if can? :create, Match%>
 <div class="text-right">
   <%= link_to 'New Match', new_event_match_path(@event), class:'btn btn-primary' %> 
-  <br>
 </div>
 <% end %>
 <h2>Matches</h2>
@@ -39,102 +133,6 @@ $(document).ready(
   }
   )
 </script>
-
-
-<br><br>
-<h2>Competing Teams</h2>
-<% qp = QP(@event) %>
-<% if current_user && (current_user.is?(:neutrinos) || current_user.is?(:admin)) %>
-<table id="teams_table1" class="display">
-  <thead>
-    <tr>
-      <th>Team #</th>
-      <th>Team Name</th>
-      <th>Event High Score</th>
-      <th>Event Avg Score</th>
-      <th>Event St Dev</th>
-      <th>Matches Played</th>
-      <th>QP</th>
-      <th>Event Win %</th>
-      <th>Event Avg Cont</th>
-      <th>Event OPR</th>
-    </tr>
-  </thead>
-
-  <% opr = OPR(@event) %>
-
-  <tbody>
-    <% @event.participations.includes(:team).each do |p| %>
-      <% t = p.team %>
-      <tr>
-        <td><%= t.number %></td>
-        <td> <a href="<%= team_path(t) %>" style=" text-decoration: none;"> <%= t.name %></a></td>
-        <td><%= p.high_score %></td>
-        <td><%= p.avg_score %></td>
-        <td><%= p.st_dev %></td>
-        <td><%= qp[p.team.number][0] %></td>
-        <td><%= qp[p.team.number][1] %></td>
-        <td><%= p.win_perc %></td>
-        <td><%= p.avg_cont %></td>
-        <td><%= opr[p.team.number].round(1) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<% else %>
-<table id="teams_table2" class="display">
-  <thead>
-    <tr>
-      <th>Team #</th>
-      <th>Team Name</th>
-      <th>Event High Score</th>
-      <th>Matches Played</th>
-      <th>QP</th>
-      <th>Event Win %</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @event.participations.includes(:team).each do |p| %>
-      <% t = p.team %>
-      <tr>
-        <td><%= t.number %></td>
-        <td> <a href="<%= team_path(t) %>" style=" text-decoration: none;"> <%= t.name %></a></td>
-        <td><%= p.high_score %></td>
-        <td><%= qp[p.team.number][0] %></td>
-        <td><%= qp[p.team.number][1] %></td>
-        <td><%= p.win_perc %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<% end %>
-
-<script>
-$(document).ready(
-  function() {
-    $('#teams_table1').DataTable({
-        "order": [[ 9, "desc" ]],
-        "paging": false,
-         "scrollY":"600px",
-         "scrollCollapse": true
-    })
-  }
-  )
-</script>
-
-<script>
-$(document).ready(
-  function() {
-    $('#teams_table2').DataTable({
-        "order": [[ 4, "desc" ]],
-        "paging": false,
-         "scrollY":"600px",
-         "scrollCollapse": true
-    })
-  }
-  )
-</script>
-
 
 <br>
 <br>
