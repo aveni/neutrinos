@@ -21,6 +21,7 @@
 
 <% @team.participations.each do |p| %>
   <% e = p.event %>
+  <% qp = QP(e) %>
   <h3><%= link_to e.name, e %></h3>
   <table class='display'>
     <thead>
@@ -42,9 +43,9 @@
 
   <% if current_user && (current_user.is?(:neutrinos) || current_user.is?(:admin)) %>
     <h5 class = "text-right">High Score: <%= p.high_score %> | Avg Score: <%= p.avg_score %>
-     | St. Dev: <%= p.st_dev %> | Win %: <%= p.win_perc %> | Avg Contribution: <%= p.avg_cont %></h5>
+     | St Dev: <%= p.st_dev %> | # Matches: <%= qp[@team.number][0] %> | QP: <%= qp[@team.number][1] %> | Win %: <%= p.win_perc %>% | Avg Cont: <%= p.avg_cont %> | OPR: <%= OPR(e)[@team.number].round(1) %> </h5>
   <% else %>
-    <h5 class = "text-right">High Score: <%= p.high_score %> | Win %: <%= p.win_perc %></h5>
+    <h5 class = "text-right">High Score: <%= p.high_score %> | # Matches: <%= qp[@team.number][0] %> | QP: <%= qp[@team.number][1] %> | Win %: <%= p.win_perc %>% </h5>
   <% end %>
 <br>
 <br>
