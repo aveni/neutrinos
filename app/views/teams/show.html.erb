@@ -10,6 +10,20 @@
   <h4>Standard Deviation: <%= @team.st_dev %></h4>
   <h4>Average Contribution: <%= @team.avg_cont %></h4>
   <h4>Win Percentage: <%= @team.win_perc %>%</h4>
+  <div class="text-right">
+    <%= link_to 'New Comment', new_comment_path(type: 'team', team_id: @team.id), class:'btn btn-success btn-md' if can? :modify, Comment%> 
+  </div>
+  <h2>Comments</h2>
+  <% @team.comments.each do |c| %>
+    <h4>"<%= c.body %>"</h4>
+    <div class='text-right'>
+      <h5>
+        -<%= c.author %> &nbsp;
+        <%= link_to fa_icon('pencil'), edit_comment_path(c), class:'btn btn-default btn-xs' if can? :modify, Comment%>
+        <%= link_to fa_icon('trash-o'), c, method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-danger btn-xs' if can? :destroy, Comment%> 
+      </h5>
+    </div>
+  <% end %>
 <% else %>
   <h4>High Score: <%= @team.high_score %></h4>
   <h4>Win Percentage: <%= @team.win_perc %>%</h4>
@@ -19,7 +33,7 @@
 <br>
 <h2>Events for <%= @team.name %></h2><br>
 
-<% @team.participations.each do |p| %>
+<% @team.participations.sort_by(){|p| [-p.event.year, -p.event.month, -p.event.day]}.each do |p| %>
   <% e = p.event %>
   <% qp = QP(e) %>
   <h3><%= link_to e.name, e %></h3>

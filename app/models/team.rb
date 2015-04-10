@@ -17,7 +17,9 @@
 class Team < ActiveRecord::Base
 
 	has_many :participations, dependent: :destroy
-	has_many :events, :through=>:participations
+	has_many :events, through: :participations
+	has_many :comments, as: :commentable, dependent: :destroy
+
 
 	validates :number, presence:true, uniqueness:true, :numericality => {:greater_than => 0}
 	validates :name, presence:true

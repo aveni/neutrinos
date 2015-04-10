@@ -15,6 +15,22 @@
 <h4><a href="<%= team_path(@match.blue1) %>" style="color:#0000FF;"> <%= @match.blue1.show_team %></a></h4>
 <h4><a href="<%= team_path(@match.blue2) %>" style="color:#0000FF;"> <%= @match.blue2.show_team %></a></h4>
 
+<% if can? :read, Comment %>
+	<div class="text-right">
+		<%= link_to 'New Comment', new_comment_path(type: 'match', match_id: @match.id), class:'btn btn-success btn-md' if can? :modify, Comment%> 
+	</div>
+	<h2>Comments</h2>
+	<% @match.comments.each do |c| %>
+	  <h4>"<%= c.body %>"</h4>
+	  <div class='text-right'>
+	    <h5>
+	      -<%= c.author %> &nbsp;
+	      <%= link_to fa_icon('pencil'), edit_comment_path(c), class:'btn btn-default btn-xs' if can? :modify, Comment%>
+	      <%= link_to fa_icon('trash-o'), c, method: :delete, data: { confirm: 'Are you sure?' }, class:'btn btn-danger btn-xs' if can? :destroy, Comment%> 
+	    </h5>
+	  </div>
+	<% end %>
+<% end %>
 
 <br>
 <br>
