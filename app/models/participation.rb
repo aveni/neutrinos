@@ -12,6 +12,9 @@
 #  st_dev     :float
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  qp         :integer
+#  numMatches :integer
+#  opr        :float
 #
 
 class Participation < ActiveRecord::Base

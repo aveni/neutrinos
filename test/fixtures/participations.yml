@@ -12,6 +12,9 @@
 #  st_dev     :float
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  qp         :integer
+#  numMatches :integer
+#  opr        :float
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
