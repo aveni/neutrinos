@@ -3,6 +3,7 @@ class EventsController < ApplicationController
 	load_and_authorize_resource
 	include TeamsHelper
 	include MatchesHelper
+	include EventsHelper
 
 	def index
 		@events = Event.all.order(:name)

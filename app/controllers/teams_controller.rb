@@ -1,6 +1,7 @@
 class TeamsController < ApplicationController
 	include TeamsHelper
 	include MatchesHelper
+	include EventsHelper
   before_action :authenticate_user!, except: [:index, :show]
 	load_and_authorize_resource
 

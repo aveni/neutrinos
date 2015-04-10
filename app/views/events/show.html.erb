@@ -5,7 +5,6 @@
 <br>
 
 <h2>Competing Teams</h2>
-<% qp = QP(@event) %>
 <% if current_user && (current_user.is?(:neutrinos) || current_user.is?(:admin)) %>
 <table id="teams_table1" class="display">
   <thead>
@@ -23,8 +22,6 @@
     </tr>
   </thead>
 
-  <% opr = OPR(@event) %>
-
   <tbody>
     <% @event.participations.includes(:team).each do |p| %>
       <% t = p.team %>
@@ -35,9 +32,9 @@
         <td><%= p.avg_score %></td>
         <td><%= p.st_dev %></td>
         <td><%= p.avg_cont %></td>
-        <td><%= opr[p.team.number].round(1) %></td>
-        <td><%= qp[p.team.number][0] %></td>
-        <td><%= qp[p.team.number][1] %></td>
+        <td><%= p.opr.round(1) %></td>
+        <td><%= p.numMatches %></td>
+        <td><%= p.qp %></td>
         <td><%= p.win_perc %></td>
       </tr>
     <% end %>
@@ -62,8 +59,8 @@
         <td><%= t.number %></td>
         <td> <a href="<%= team_path(t) %>" style=" text-decoration: none;"> <%= t.name %></a></td>
         <td><%= p.high_score %></td>
-        <td><%= qp[p.team.number][0] %></td>
-        <td><%= qp[p.team.number][1] %></td>
+        <td><%= p.numMatches %></td>
+        <td><%= p.qp %></td>
         <td><%= p.win_perc %></td>
       </tr>
     <% end %>

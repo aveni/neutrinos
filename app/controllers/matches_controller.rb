@@ -1,6 +1,8 @@
 class MatchesController < ApplicationController
 	include TeamsHelper
 	include MatchesHelper
+	include EventsHelper
+
 	before_action :set_event
 	before_action :authenticate_user!, except: [:show]
 	load_and_authorize_resource
@@ -22,6 +24,7 @@ class MatchesController < ApplicationController
 		@match = Match.new(match_params)
 		if @match.save
 			addToEvent(@match)
+			updateEvent(@event)
 			redirect_to @event, notice:'Match successfully created'
 		else
 			render 'new'
