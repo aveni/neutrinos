@@ -22,6 +22,7 @@ class Match < ActiveRecord::Base
 	belongs_to :red1, :class_name => "Team"
 	belongs_to :red2, :class_name => "Team"
 	belongs_to :event
+	has_many :comments, as: :commentable, dependent: :destroy
 
 	validates :blue1_id, presence:true
 	validates :blue2_id, presence:true

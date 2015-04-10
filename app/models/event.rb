@@ -16,7 +16,7 @@ class Event < ActiveRecord::Base
 
 	has_many :matches, dependent: :destroy
 	has_many :participations, dependent: :destroy
-	has_many :teams, :through=>:participations
+	has_many :teams, through: :participations
 
 	validates :day, presence:true
 	validates :month, presence:true
