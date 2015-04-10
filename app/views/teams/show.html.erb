@@ -35,7 +35,6 @@
 
 <% @team.participations.sort_by(){|p| [-p.event.year, -p.event.month, -p.event.day]}.each do |p| %>
   <% e = p.event %>
-  <% qp = QP(e) %>
   <h3><%= link_to e.name, e %></h3>
   <table class='display'>
     <thead>
@@ -51,15 +50,15 @@
     </thead>
 
     <tbody>
-      <%= render getEventMatches(@team, e).sort_by{|m| m.number} %>
+      <%= render getEventMatches(@team, e).includes(:red1, :red2, :blue1, :blue2).sort_by{|m| m.number} %>
     </tbody>
   </table>
 
   <% if current_user && (current_user.is?(:neutrinos) || current_user.is?(:admin)) %>
     <h5 class = "text-right">High Score: <%= p.high_score %> | Avg Score: <%= p.avg_score %>
-     | St Dev: <%= p.st_dev %> | Avg Cont: <%= p.avg_cont %> | OPR: <%= OPR(e)[@team.number].round(1) %> | # Matches: <%= qp[@team.number][0] %> | QP: <%= qp[@team.number][1] %> | Win %: <%= p.win_perc %>%  </h5>
+     | St Dev: <%= p.st_dev %> | Avg Cont: <%= p.avg_cont %> | OPR: <%= p.opr.round(1) %> | # Matches: <%= p.numMatches %> | QP: <%= p.qp %> | Win %: <%= p.win_perc %>%  </h5>
   <% else %>
-    <h5 class = "text-right">High Score: <%= p.high_score %> | # Matches: <%= qp[@team.number][0] %> | QP: <%= qp[@team.number][1] %> | Win %: <%= p.win_perc %>% </h5>
+    <h5 class = "text-right">High Score: <%= p.high_score %> | # Matches: <%= p.numMatches %> | QP: <%= p.qp %> | Win %: <%= p.win_perc %>% </h5>
   <% end %>
 <br>
 <br>

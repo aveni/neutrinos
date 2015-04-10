@@ -9,15 +9,21 @@ module MatchesHelper
 	end
 
 
-	def updateEvent(event)
+	def removeTeams(event)
+		matches = event.matches
 		event.participations.each do |p|
-			if getEventMatches(p.team, event).size == 0
+			if matches.where('blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?', "#{p.team.id}", "#{p.team.id}", "#{p.team.id}", "#{p.team.id}").size == 0
 				team = p.team
 				p.destroy
 				updateTeam(team)
-			else
-				updateParticipation(p)
 			end
+		end
+	end
+
+	def updateEvent(event)
+		removeTeams(event)
+		event.participations.each do |p|
+			updateParticipation(p) unless p.destroyed?
 		end
 	end
 
@@ -29,7 +35,6 @@ module MatchesHelper
 				p = Participation.create(event_id: event.id, team_id: t.id)
 				p.save
 			end
-			updateParticipation(event.participations.where(team_id: t.id).first)
 		end
 	end
 
