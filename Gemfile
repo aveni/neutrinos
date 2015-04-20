@@ -39,6 +39,8 @@ gem 'jquery-datatables-rails', '~> 3.1.1'
 
 gem 'pry-rails', '~> 0.3.2'
 
+gem 'pg', '~> 0.17.1'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -51,7 +53,6 @@ gem 'pry-rails', '~> 0.3.2'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
-  gem 'pg', '~> 0.17.1'
 
   gem 'rack-mini-profiler'
 	gem 'sqlite3'
@@ -63,7 +64,6 @@ group :development, :test do
 end
 
 group :production do
-  gem 'pg', '~> 0.17.1'
   gem 'rails_12factor', '~> 0.0.3'
   gem 'puma'
 end
