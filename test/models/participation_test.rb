@@ -15,6 +15,7 @@
 #  qp         :integer
 #  numMatches :integer
 #  opr        :float
+#  curMatches :integer
 #
 
 require 'test_helper'

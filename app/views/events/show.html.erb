@@ -33,7 +33,7 @@
         <td><%= p.st_dev %></td>
         <td><%= p.avg_cont %></td>
         <td><%= p.opr.round(1) %></td>
-        <td><%= p.numMatches %></td>
+        <td><%= "#{p.curMatches}/#{p.numMatches}" %></td>
         <td><%= p.qp %></td>
         <td><%= p.win_perc %></td>
       </tr>
@@ -59,7 +59,7 @@
         <td><%= t.number %></td>
         <td> <a href="<%= team_path(t) %>" style=" text-decoration: none;"> <%= t.name %></a></td>
         <td><%= p.high_score %></td>
-        <td><%= p.numMatches %></td>
+        <td><%= "#{p.curMatches}/#{p.numMatches}" %></td>
         <td><%= p.qp %></td>
         <td><%= p.win_perc %></td>
       </tr>

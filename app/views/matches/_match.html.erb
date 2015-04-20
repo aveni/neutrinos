@@ -1,9 +1,13 @@
 <tr>
-	<td> <a href="<%= event_match_path(match.event, match) %>" style="color:#000000;	text-decoration: none;"> <%= match.number %> </a></td>
+	<% if can? :modify, Match %>
+		<td> <a href="<%= event_match_path(match.event, match) %>"> <%= match.number %> </a></td>
+	<% else  %>
+		<td> <a href="<%= event_match_path(match.event, match) %>" style="color:#000000;	text-decoration: none;"> <%= match.number %> </a></td>
+	<% end %>
 	<td> <a href="<%= team_path(match.red1) %>" style="color:#FF0000;	text-decoration: none;"> <%= match.red1.show_team %> </a></td>
 	<td> <a href="<%= team_path(match.red2) %>" style="color:#FF0000;	text-decoration: none;"> <%= match.red2.show_team %> </a></td>
 	<td> <a href="<%= team_path(match.blue1) %>" style="color:#0000FF;	text-decoration: none;"> <%= match.blue1.show_team %> </a></td>
 	<td> <a href="<%= team_path(match.blue2) %>" style="color:#0000FF;	text-decoration: none;"> <%= match.blue2.show_team %> </a></td>
-	<td> <font color="RED"> <%= match.red_score %> </font></td>
-	<td> <font color="BLUE"><%= match.blue_score %> </font></td>
+	<td> <font color="RED"> <%= match.red_score == 0 ? '---' : match.red_score %> </font></td>
+	<td> <font color="BLUE"><%= match.blue_score == 0 ? '---' : match.blue_score %> </font></td>
 </tr>

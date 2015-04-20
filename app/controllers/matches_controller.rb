@@ -9,7 +9,7 @@ class MatchesController < ApplicationController
 
 
 	def new
-		@match = Match.new(event_id: @event.id)
+		@match = Match.new(event_id: @event.id, blue_score: 0, red_score: 0)
 	end
 
 	def show

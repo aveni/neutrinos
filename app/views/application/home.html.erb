@@ -1,0 +1,15 @@
+<div class="row text-center">
+	<br><br><br><br>
+	<h1 class="super">Worlds 2015</h1>
+	<br><br>
+
+	<% if current_user && current_user.is?(:neutrinos) %>
+		<%= link_to "Franklin Division", event_path(10), class: 'btn btn-xl btn-success' %>
+		&nbsp;
+		<%= link_to "Edison Division", event_path(11), class: 'btn btn-xl btn-warning' %>
+	<% else %>
+		<%= link_to "Franklin Division", event_path(10), class: 'btn btn-xl btn-danger' %>
+		&nbsp;
+		<%= link_to "Edison Division", event_path(11), class: 'btn btn-xl btn-primary' %>
+	<% end %>
+</div>
