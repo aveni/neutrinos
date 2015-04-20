@@ -17,7 +17,7 @@ module EventsHelper
 			map[teams[i].number] = i
 		end
 
-		arr = Array.new(teams.size) {Array.new(2) {0}}		
+		arr = Array.new(teams.size) {Array.new(3) {0}}		
 
 		event.matches.includes(:red1, :red2, :blue1, :blue2).each do |m|
 			r1 = map[m.red1.number]
@@ -29,6 +29,15 @@ module EventsHelper
 			arr[r2][0] += 1
 			arr[b1][0] += 1
 			arr[b2][0] += 1
+
+			if m.red_score > 0
+				arr[r1][2] += 1
+				arr[r2][2] += 1
+			end
+			if m.blue_score > 0
+				arr[b1][2] += 1
+				arr[b2][2] += 1
+			end
 
 			n = winningAlliance(m)
 			if n == -1

@@ -56,9 +56,9 @@
 
   <% if current_user && (current_user.is?(:neutrinos) || current_user.is?(:admin)) %>
     <h5 class = "text-right">High Score: <%= p.high_score %> | Avg Score: <%= p.avg_score %>
-     | St Dev: <%= p.st_dev %> | Avg Cont: <%= p.avg_cont %> | OPR: <%= p.opr.round(1) %> | # Matches: <%= p.numMatches %> | QP: <%= p.qp %> | Win %: <%= p.win_perc %>%  </h5>
+     | St Dev: <%= p.st_dev %> | Avg Cont: <%= p.avg_cont %> | OPR: <%= p.opr.round(1) %> | # Matches: <%= "#{p.curMatches}/#{p.numMatches}" %> | QP: <%= p.qp %> | Win %: <%= p.win_perc %>%  </h5>
   <% else %>
-    <h5 class = "text-right">High Score: <%= p.high_score %> | # Matches: <%= p.numMatches %> | QP: <%= p.qp %> | Win %: <%= p.win_perc %>% </h5>
+    <h5 class = "text-right">High Score: <%= p.high_score %> | # Matches: <%= "#{p.curMatches}/#{p.numMatches}" %> | QP: <%= p.qp %> | Win %: <%= p.win_perc %>% </h5>
   <% end %>
 <br>
 <br>

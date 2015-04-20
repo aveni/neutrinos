@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     resources :matches
   end
 
-  root 'teams#index'
+  root 'application#home'
 
 
   # The priority is based upon order of creation: first created -> highest priority.

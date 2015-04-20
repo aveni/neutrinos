@@ -5,7 +5,11 @@
 	<%= simple_form_for([@event, @match], html:{class:'form-horizontal'}, wrapper: :horizontal_form) do |f| %>
 
 		<% f.error_notification %>
+		
 		<%= f.hidden_field :event_id %>
+		<%= f.hidden_field :red_score%>
+		<%= f.hidden_field :blue_score %>
+
 		<%= f.input :number, label: 'Match Number' %>
 		<%= f.input :red1_id, label: 'Red 1', collection: Team.all.order(:number), label_method: :show_team %>
 		<%= f.input :red2_id, label: 'Red 2', collection: Team.all.order(:number), label_method: :show_team %>
