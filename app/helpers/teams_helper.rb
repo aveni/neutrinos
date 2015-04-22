@@ -15,11 +15,6 @@ module TeamsHelper
 		p.avg_cont = avgCont(p.team, p.event)
 		p.win_perc = winPerc(p.team, p.event)
 		p.st_dev = stDev(p.team, p.event)
-		qp = QP(p.event)
-		p.numMatches = qp[p.team.number][0]
-		p.curMatches = qp[p.team.number][2]
-		p.qp = qp[p.team.number][1]
-		p.opr = OPR(p.event)[p.team.number]
 		p.save
 		updateTeam(p.team)
 	end
