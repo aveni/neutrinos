@@ -8,6 +8,14 @@ module MatchesHelper
 		Match.where('event_id = ? AND (blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?)', "#{event.id}", "#{team.id}", "#{team.id}", "#{team.id}", "#{team.id}")
 	end
 
+	def getPlayedMatches(team)
+		Match.where('blue_score!=0 AND red_score!=0 AND (blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?)', "#{team.id}", "#{team.id}", "#{team.id}", "#{team.id}")
+	end
+
+	def getPlayedEventMatches(team, event)
+		Match.where('event_id = ? AND blue_score!=0 AND red_score!=0 AND (blue1_id=? OR blue2_id=? OR red1_id=? OR red2_id=?)', "#{event.id}", "#{team.id}", "#{team.id}", "#{team.id}", "#{team.id}")
+	end
+
 
 	def removeTeams(event)
 		matches = event.matches
@@ -38,6 +46,9 @@ module MatchesHelper
 		end
 	end
 
+	def isPlayed(match)
+		match.red_score != 0 && match.blue_score != 0
+	end
 
 	def alliance(match, team)
 		if match.red1_id == team.id || match.red2_id == team.id

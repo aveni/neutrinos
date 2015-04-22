@@ -26,7 +26,7 @@ module TeamsHelper
 
 	def highScore(team, event=nil)
 		high = 0
-		event == nil ? matches = getMatches(team) : matches = getEventMatches(team, event)
+		event == nil ? matches = getPlayedMatches(team) : matches = getPlayedEventMatches(team, event)
 		matches.each do |m|
 			if teamScore(m, team) > high
 				high = teamScore(m, team)
@@ -37,7 +37,7 @@ module TeamsHelper
 
 	def avgCont(team, event=nil)
 		points=0.0
-		event == nil ? matches = getMatches(team) : matches = getEventMatches(team, event)
+		event == nil ? matches = getPlayedMatches(team) : matches = getPlayedEventMatches(team, event)
 		if matches.size > 0
 			matches.each do |m|
 				points += teamScore(m, team) - 0.5*avgScore(partner(m, team), m.event)
@@ -50,7 +50,7 @@ module TeamsHelper
 
 	def winPerc(team, event=nil)
 		wins = 0.0
-		event == nil ? matches = getMatches(team) : matches = getEventMatches(team, event)
+		event == nil ? matches = getPlayedMatches(team) : matches = getPlayedEventMatches(team, event)
 		if matches.size > 0
 			matches.each do |m|
 				wins += 1 if teamWon?(m, team)
@@ -63,7 +63,7 @@ module TeamsHelper
 
 	def avgScore(team, event=nil)
 		points = 0.0
-		event == nil ? matches = getMatches(team) : matches = getEventMatches(team, event)
+		event == nil ? matches = getPlayedMatches(team) : matches = getPlayedEventMatches(team, event)
 		if matches.size > 0
 			matches.each do |m|
 				points += teamScore(m, team)
@@ -76,7 +76,7 @@ module TeamsHelper
 
 	def stDev(team, event=nil)
 		scores=[]
-		event == nil ? matches = getMatches(team) : matches = getEventMatches(team, event)
+		event == nil ? matches = getPlayedMatches(team) : matches = getPlayedEventMatches(team, event)
 		if matches.size > 0
 			matches.each do |m|
 				scores << teamScore(m, team)
