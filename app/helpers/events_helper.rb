@@ -46,7 +46,7 @@ module EventsHelper
 			elsif n == 1
 				arr[b1][1] += 2
 				arr[b2][1] += 2
-			else
+			elsif m.red_score > 0
 				arr[r1][1] += 1
 				arr[r2][1] += 1
 				arr[b1][1] += 1
