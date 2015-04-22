@@ -18,7 +18,6 @@ module EventsHelper
 		end
 
 		arr = Array.new(teams.size) {Array.new(3) {0}}		
-
 		event.matches.includes(:red1, :red2, :blue1, :blue2).each do |m|
 			r1 = map[m.red1.number]
 			r2 = map[m.red2.number]
