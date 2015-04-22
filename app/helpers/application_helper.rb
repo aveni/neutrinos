@@ -31,4 +31,26 @@ module ApplicationHelper
 		Participation.all.each {|p| updateParticipation(p)}
 	end
 
+	def loadMatches(data, event)
+		matches = data.split("\n")
+
+		matches.each do |match|
+			truth = match.split(" ")
+
+			m = Match.new
+			m.number = truth[0].to_i
+			m.red1_id = Team.where(number: truth[1]).first.id
+			m.red2_id = Team.where(number: truth[2]).first.id
+			m.blue1_id = Team.where(number: truth[3]).first.id
+			m.blue2_id = Team.where(number: truth[4]).first.id
+			m.red_score = 0
+			m.blue_score = 0
+			m.event_id = event.id
+			if m.save
+				addToEvent(m) 
+			end
+		end
+		updateEvent(event)
+	end
+	
 end
