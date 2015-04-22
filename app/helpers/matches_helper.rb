@@ -27,11 +27,21 @@ module MatchesHelper
 			end
 		end
 	end
+	
 
 	def updateEvent(event)
 		removeTeams(event)
-		event.participations.each do |p|
-			updateParticipation(p) unless p.destroyed?
+		qp = QP(event)
+		op = OPR(event)
+		event.participations.each do |p|			
+			if !p.destroyed?
+				updateParticipation(p)
+				p.numMatches = qp[p.team.number][0]
+				p.curMatches = qp[p.team.number][2]
+				p.qp = qp[p.team.number][1]
+				p.opr = op[p.team.number]
+				p.save
+			end
 		end
 	end
 
