@@ -52,5 +52,33 @@ module ApplicationHelper
 		end
 		updateEvent(event)
 	end
+
+
+	def checkMatches(data, event)
+		matches = data.split("\n")
+
+		missing = []
+		wscore = []
+
+		matches.each do |match|
+			truth = match.split(" ")
+			number = truth[0][2..-1].to_i
+			scores = truth[1].split("-")
+
+			m2 = event.matches.where(number: number).first
+			if m2 == nil
+				missing << number
+			elsif m2.red_score != scores[0].to_i || m2.blue_score != scores[1].to_i
+				wscore << number
+			end
+		end
+
+		missing.each do |m|
+			puts "Match #{m} is missing."
+		end
+		wscore.each do |w|
+			puts "Match #{w} has a score error."
+		end
+	end
 	
 end
