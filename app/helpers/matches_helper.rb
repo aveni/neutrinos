@@ -60,6 +60,28 @@ module MatchesHelper
 		match.red_score != 0 && match.blue_score != 0
 	end
 
+	def predict(match)
+		if !isPlayed(match)
+			or1 = match.event.participations.where(event_id: match.event.id).first.opr
+			or2 = match.red2.participations.where(event_id: match.event.id).first.opr
+			ob1 = match.blue1.participations.where(event_id: match.event.id).first.opr
+			ob2 = match.blue2.participations.where(event_id: match.event.id).first.opr
+
+			red = (or1 + or2).round(0)
+			blue = (ob1 + ob2).round(0)
+
+			if red>blue
+				"RED #{red}-#{blue}"
+			elsif blue>red
+				"BLUE #{red}-#{blue}"
+			else
+				"TIE #{red}-#{blue}"
+			end
+		else
+			"-----------"
+		end
+	end
+
 	def alliance(match, team)
 		if match.red1_id == team.id || match.red2_id == team.id
 			-1

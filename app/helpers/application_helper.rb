@@ -81,4 +81,31 @@ module ApplicationHelper
 		end
 	end
 	
+	def predictMatches(event)
+		teams = event.teams
+
+		map = {}
+		teams.each do |t|
+			opr = t.participations.where(event_id: event.id).first.opr
+			map[t.id] = opr
+		end
+
+		pred = ""
+		event.matches.each do |m|
+			if !isPlayed(m)
+				red_score = (map[m.red1_id] + map[m.red2_id]).round(0)
+				blue_score = (map[m.blue1_id] + map[m.blue2_id]).round(0)
+				pred += "Match #{m.number}: #{red_score}-#{blue_score} "
+				if (red_score > blue_score)
+					pred += "RED\n"
+				elsif (blue_score > red_score)
+					pred += "BLUE\n"
+				else
+					pred += "TIE\n"
+				end
+			end
+		end
+		pred
+	end
+
 end
