@@ -45,7 +45,7 @@ module EventsHelper
 			elsif n == 1
 				arr[b1][1] += 2
 				arr[b2][1] += 2
-			elsif m.red_score > 0
+			elsif isPlayed(m)
 				arr[r1][1] += 1
 				arr[r2][1] += 1
 				arr[b1][1] += 1

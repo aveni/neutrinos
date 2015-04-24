@@ -4,6 +4,8 @@
 </div>
 <br>
 
+<% participations = @event.participations.includes(:team)%>
+
 <h2>Competing Teams</h2>
 <% if current_user && (current_user.is?(:neutrinos) || current_user.is?(:admin)) %>
 <table id="teams_table1" class="display">
@@ -23,7 +25,7 @@
   </thead>
 
   <tbody>
-    <% @event.participations.includes(:team).each do |p| %>
+    <% participations.each do |p| %>
       <% t = p.team %>
       <tr>
         <td><%= t.number %></td>
@@ -53,7 +55,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @event.participations.includes(:team).each do |p| %>
+    <% participations.each do |p| %>
       <% t = p.team %>
       <tr>
         <td><%= t.number %></td>
@@ -94,6 +96,8 @@ $(document).ready(
   )
 </script>
 
+<% opr = Hash[participations.map {|p| [p.team_id, p.opr]}] %>
+
 <br><br><br>
 <% if can? :create, Match%>
 <div class="text-right">
@@ -111,10 +115,44 @@ $(document).ready(
     <th><%= blue("Blue 2") %></th>
     <th><%= red("Red") %></th>
     <th><%= blue("Blue") %></th>
+    <% if current_user && (current_user.is?(:neutrinos) || current_user.is?(:admin)) %>
+      <th>Prediction</th>
+    <% end %>
   </tr>
   </thead>
   <tbody>
-    <%= render @event.matches.includes(:red1, :red2, :blue1, :blue2).order(number: :asc) %>
+    <% @event.matches.includes(:red1, :red2, :blue1, :blue2).order(number: :asc).each do |m| %>
+      <tr>
+      <% if can? :modify, Match %>
+        <td> <a href="<%= event_match_path(m.event, m) %>"> <%= m.number %> </a></td>
+      <% else  %>
+        <td> <a href="<%= event_match_path(m.event, m) %>" style="color:#000000;  text-decoration: none;"> <%= m.number %> </a></td>
+      <% end %>
+        <td> <a href="<%= team_path(m.red1) %>" style="color:#FF0000; text-decoration: none;"> <%= m.red1.show_team %> </a></td>
+        <td> <a href="<%= team_path(m.red2) %>" style="color:#FF0000; text-decoration: none;"> <%= m.red2.show_team %> </a></td>
+        <td> <a href="<%= team_path(m.blue1) %>" style="color:#0000FF;  text-decoration: none;"> <%= m.blue1.show_team %> </a></td>
+        <td> <a href="<%= team_path(m.blue2) %>" style="color:#0000FF;  text-decoration: none;"> <%= m.blue2.show_team %> </a></td>
+        <td> <font color="RED"> <%= m.red_score == 0 ? '---' : m.red_score %> </font></td>
+        <td> <font color="BLUE"><%= m.blue_score == 0 ? '---' : m.blue_score %> </font></td>
+
+      <% if current_user && (current_user.is?(:neutrinos) || current_user.is?(:admin)) %>
+        <% if !isPlayed(m) %>
+          <% red = (opr[m.red1_id] + opr[m.red2_id]).round(0) %>
+          <% blue = (opr[m.blue1_id] + opr[m.blue2_id]).round(0) %>
+
+          <% if red>blue %>
+            <td><font color="RED"><%= "RED #{red}-#{blue}" %></font></td>
+          <% elsif blue>red %>
+            <td><font color="BLUE"><%= "BLUE #{red}-#{blue}" %></font></td>
+          <% else %>
+            <td><%= "TIE #{red}-#{blue}" %></td>
+          <% end %>
+        <% else %>
+          <td><%= "-----------" %></td>
+        <% end %>
+      <% end %>
+      </tr>
+    <% end %>
   </tbody>
 </table>
 
