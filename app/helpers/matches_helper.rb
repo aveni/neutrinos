@@ -62,7 +62,7 @@ module MatchesHelper
 
 	def predict(match)
 		if !isPlayed(match)
-			or1 = match.event.participations.where(event_id: match.event.id).first.opr
+			or1 = match.red1.participations.where(event_id: match.event.id).first.opr
 			or2 = match.red2.participations.where(event_id: match.event.id).first.opr
 			ob1 = match.blue1.participations.where(event_id: match.event.id).first.opr
 			ob2 = match.blue2.participations.where(event_id: match.event.id).first.opr
