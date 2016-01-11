@@ -2,7 +2,7 @@
 	<h1><%= @team.show_team %></h1>
 </div>
 
-<h2>2015-16 Season Data</h2>
+<h2>Season Data</h2>
 
 <% if current_user && (current_user.is?(:neutrinos) || current_user.is?(:admin)) %>
   <h4>High Score: <%= @team.high_score %></h4>
