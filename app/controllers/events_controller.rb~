@@ -6,7 +6,7 @@ class EventsController < ApplicationController
 	include EventsHelper
 
 	def index
-		@events = Event.all.where("id>?", 12).order(:name)
+		@events = Event.all.order(:name)
 	end
 
 	def new
